@@ -1,62 +1,169 @@
 <!DOCTYPE html>
-<html>
+<html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        body { background: #0f0f0f; color: white; font-family: 'Inter', sans-serif; padding: 15px; margin: 0; }
-        .header { text-align: center; padding: 20px 0; background: linear-gradient(135deg, #7289da, #9b59b6); border-radius: 0 0 20px 20px; margin: -15px -15px 20px -15px; }
-        .game-card { 
-            background: #1a1a1a; border: 1px solid #333; border-radius: 15px; 
-            padding: 15px; margin-bottom: 12px; display: flex; 
-            justify-content: space-between; align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        .info { display: flex; flex-direction: column; }
-        .name { font-weight: bold; font-size: 16px; }
-        .price { color: #aaa; font-size: 13px; margin-top: 4px; }
-        .buy-btn { 
-            background: #7289da; color: white; border: none; 
-            padding: 10px 18px; border-radius: 10px; font-weight: 600;
-            transition: 0.2s;
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 иконки в ряд */
+            gap: 20px;
+            width: 100%;
+            max-width: 400px;
+            margin-top: 20px;
         }
-        .buy-btn:active { transform: scale(0.9); background: #5b6eae; }
+
+        .game-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .game-item:active {
+            transform: scale(0.9);
+        }
+
+        .game-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 18px; /* Скругление как у iOS иконок */
+            object-fit: cover;
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+        }
+
+        .game-name {
+            margin-top: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #efefef;
+        }
+
+        /* Список товаров (всплывающее меню) */
+        .modal {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #121212;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            padding: 20px;
+            z-index: 100;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+        }
+
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #222;
+        }
+
+        .buy-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 90;
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h2>FIKO PAY SHOP</h2>
-    </div>
 
-    <div class="game-card">
-        <div class="info">
-            <span class="name">PUBG 60 UC</span>
-            <span class="price">12 000 so'm</span>
+    <h2 style="align-self: flex-start; margin-left: 10px;">Magazin</h2>
+
+    <div class="grid">
+        <div class="game-item" onclick="openGame('pubg', 'PUBG Mobile')">
+            <img class="game-icon" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6A5N1S8_Yp4L7aV7p6V6yv8p6V6yv8p6V6A&s" alt="PUBG">
+            <div class="game-name">PUBG</div>
         </div>
-        <button class="buy-btn" onclick="buy('pubg', '60 UC', 12000)">Sotib olish</button>
-    </div>
 
-    <div class="game-card">
-        <div class="info">
-            <span class="name">Free Fire 100 Almaz</span>
-            <span class="price">14 000 so'm</span>
+        <div class="game-item" onclick="openGame('ff', 'Free Fire')">
+            <img class="game-icon" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_mU7PZqF_n8v5T7E-pZ2H6p_Z_q9p_Z_q9A&s" alt="FF">
+            <div class="game-name">Free Fire</div>
         </div>
-        <button class="buy-btn" onclick="buy('ff_almaz', '100 Almaz', 14000)">Sotib olish</button>
+
+        <div class="game-item" onclick="openGame('stars', 'TG Stars')">
+            <img class="game-icon" src="https://img.icons8.com/fluency/96/star.png" alt="Stars">
+            <div class="game-name">Stars</div>
+        </div>
     </div>
 
-    <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand();
+    <div class="overlay" id="overlay" onclick="closeModal()"></div>
+    <div class="modal" id="modal">
+        <h3 id="modal-title" style="margin-top: 0;"></h3>
+        <div id="modal-content"></div>
+        <button onclick="closeModal()" style="width: 100%; margin-top: 15px; background: #222; color: white; border: none; padding: 10px; border-radius: 10px;">Yopish</button>
+    </div>
 
-        function buy(game, item, price) {
-            // Отправляем данные в бот
-            tg.sendData(JSON.stringify({
-                "game": game,
-                "item": item,
-                "price": price
-            }));
-        }
-    </script>
+<script>
+    let tg = window.Telegram.WebApp;
+    tg.expand();
+
+    const shopData = {
+        'pubg': [ {n: '60 UC', p: 12000}, {n: '325 UC', p: 55000} ],
+        'ff': [ {n: '100 Almaz', p: 14000}, {n: '310 Almaz', p: 35000} ],
+        'stars': [ {n: '50 Stars', p: 14000}, {n: '100 Stars', p: 28000} ]
+    };
+
+    function openGame(id, title) {
+        const modal = document.getElementById('modal');
+        const overlay = document.getElementById('overlay');
+        const content = document.getElementById('modal-content');
+        
+        document.getElementById('modal-title').innerText = title;
+        content.innerHTML = '';
+
+        shopData[id].forEach(item => {
+            content.innerHTML += `
+                <div class="item-row">
+                    <span>${item.n} - <b>${item.p} so'm</b></span>
+                    <button class="buy-btn" onclick="buy('${id}', '${item.n}', ${item.p})">Sotib olish</button>
+                </div>
+            `;
+        });
+
+        modal.style.display = 'block';
+        overlay.style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    }
+
+    function buy(game, item, price) {
+        tg.sendData(JSON.stringify({game: game, item: item, price: price}));
+    }
+</script>
+
 </body>
 </html>
