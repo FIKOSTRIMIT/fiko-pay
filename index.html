@@ -1,1 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body { background: #0f0f0f; color: white; font-family: 'Inter', sans-serif; padding: 15px; margin: 0; }
+        .header { text-align: center; padding: 20px 0; background: linear-gradient(135deg, #7289da, #9b59b6); border-radius: 0 0 20px 20px; margin: -15px -15px 20px -15px; }
+        .game-card { 
+            background: #1a1a1a; border: 1px solid #333; border-radius: 15px; 
+            padding: 15px; margin-bottom: 12px; display: flex; 
+            justify-content: space-between; align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        .info { display: flex; flex-direction: column; }
+        .name { font-weight: bold; font-size: 16px; }
+        .price { color: #aaa; font-size: 13px; margin-top: 4px; }
+        .buy-btn { 
+            background: #7289da; color: white; border: none; 
+            padding: 10px 18px; border-radius: 10px; font-weight: 600;
+            transition: 0.2s;
+        }
+        .buy-btn:active { transform: scale(0.9); background: #5b6eae; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>FIKO PAY SHOP</h2>
+    </div>
 
+    <div class="game-card">
+        <div class="info">
+            <span class="name">PUBG 60 UC</span>
+            <span class="price">12 000 so'm</span>
+        </div>
+        <button class="buy-btn" onclick="buy('pubg', '60 UC', 12000)">Sotib olish</button>
+    </div>
+
+    <div class="game-card">
+        <div class="info">
+            <span class="name">Free Fire 100 Almaz</span>
+            <span class="price">14 000 so'm</span>
+        </div>
+        <button class="buy-btn" onclick="buy('ff_almaz', '100 Almaz', 14000)">Sotib olish</button>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        function buy(game, item, price) {
+            // Отправляем данные в бот
+            tg.sendData(JSON.stringify({
+                "game": game,
+                "item": item,
+                "price": price
+            }));
+        }
+    </script>
+</body>
+</html>
