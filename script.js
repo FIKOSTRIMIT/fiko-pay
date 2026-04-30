@@ -1,34 +1,43 @@
-let tg = window.Telegram.WebApp;
-tg.expand();
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/dist/css/all.min.css">
+</head>
+<body>
 
-// Список игр с путями к папке img
-const games = [
-    { id: 'ff', name: "Free Fire", img: "img/ff.png" },
-    { id: 'mlbb', name: "MLBB", img: "img/mlbb.png" },
-    { id: 'genshin', name: "Genshin", img: "img/genshin.png" },
-    { id: 'arena', name: "Arena", img: "img/arena.png" },
-    { id: 'stars', name: "Stars", img: "img/stars.png" },
-    { id: 'tg_prem', name: "Premium", img: "img/tg_prem.png" }
-];
-
-function render() {
-    const container = document.getElementById('games-container');
-    if (!container) return;
-    
-    container.innerHTML = games.map(g => `
-        <div class="game-item" onclick="tg.HapticFeedback.impactOccurred('light')">
-            <div class="game-img-container">
-                <img src="${g.img}" onerror="this.src='https://via.placeholder.com/150/111830/ffffff?text=Fiko'">
-            </div>
-            <span class="game-label">${g.name}</span>
+    <!-- Главная страница -->
+    <div id="main-page">
+        <div class="top-bar">
+            <div class="user-info"><div class="avatar"></div> <span id="user-name">@username</span></div>
+            <div class="coins"><i class="fas fa-circle" style="color:#facc15"></i> 11</div>
         </div>
-    `).join('');
-    
-    // Подставляем имя пользователя из Телеграм
-    if(tg.initDataUnsafe?.user?.username) {
-        document.getElementById('user-name').innerText = '@' + tg.initDataUnsafe.user.username;
-    }
-}
+        <div class="balance-card">
+            <div style="color:var(--muted); font-size:11px;">БАЛАНС</div>
+            <div class="bal-value">0 <small style="font-size:14px;">сум</small></div>
+            <div class="bal-actions">
+                <div class="bal-btn"><i class="fas fa-wallet"></i> Пополнить</div>
+                <div class="bal-btn"><i class="fas fa-percent"></i> Промокод</div>
+            </div>
+        </div>
+        <div class="games-grid" id="games-container"></div>
+    </div>
 
-// Запуск при полной загрузке страницы
-window.onload = render;
+    <!-- Страница товаров -->
+    <div id="product-page" class="hidden">
+        <div class="back-btn" onclick="goBack()"><i class="fas fa-arrow-left"></i> Назад</div>
+        <h2 id="cat-title" style="margin-bottom: 20px;"></h2>
+        <div id="products-list"></div>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item active"><i class="fas fa-home"></i><span>Главная</span></div>
+        <div class="nav-item"><i class="fas fa-shopping-bag"></i><span>Заказы</span></div>
+    </div>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
