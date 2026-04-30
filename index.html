@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="uz">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -10,81 +10,70 @@
 </head>
 <body>
 
-    <!-- ASOSIY SAHIFA -->
+    <!-- ГЛАВНАЯ СТРАНИЦА -->
     <div id="main-page">
         <div class="top-bar">
             <div class="user-info">
                 <div class="avatar"></div>
-                <span class="username" id="user-name">@fiko_user</span>
+                <span class="username" id="user-name">@username</span>
             </div>
             <div class="coins">
-                <i class="fas fa-circle coin-icon"></i> <span id="user-coins">11</span>
+                <i class="fas fa-circle coin-icon"></i> <span>11</span>
             </div>
         </div>
 
         <div class="balance-card">
-            <div class="bal-title">Balans</div>
-            <div class="bal-value">0 <small>so'm</small></div>
+            <div class="bal-title">Баланс</div>
+            <div class="bal-value">0 <small>сум</small></div>
             <div class="bal-actions">
-                <button class="bal-btn" onclick="sendAction('deposit')">
-                    <i class="fas fa-wallet"></i> <span>Hisobni to'ldirish</span>
-                </button>
-                <button class="bal-btn">
-                    <i class="fas fa-th-large"></i> <span>Bonus kodlar</span>
-                </button>
-                <button class="bal-btn">
-                    <i class="fas fa-headset"></i> <span>Qo'llab-quvvatlash</span>
-                </button>
+                <button class="bal-btn"><i class="fas fa-wallet"></i> <span>Пополнить</span></button>
+                <button class="bal-btn"><i class="fas fa-percent"></i> <span>Промокод</span></button>
+                <button class="bal-btn"><i class="fas fa-headset"></i> <span>Помощь</span></button>
             </div>
         </div>
 
-        <div class="tabs-header">
-            <div class="tab active">O'yinlar</div>
-            <div class="tab inactive">Promokodlar</div>
-        </div>
-
         <div class="games-grid" id="games-container">
-            <!-- JS orqali to'ldiriladi -->
+            <!-- Сетка 3x3 -->
         </div>
     </div>
 
-    <!-- MAHSULOTLAR SAHIFASI -->
+    <!-- СТРАНИЦА ТОВАРА -->
     <div id="item-page" style="display: none;">
-        <div class="back-btn" onclick="showMainPage()">
-            <i class="fas fa-arrow-left"></i> Orqaga
+        <div class="back-header">
+            <div class="back-btn" onclick="showMainPage()">
+                <i class="fas fa-arrow-left"></i> Назад
+            </div>
         </div>
 
         <div class="product-header">
             <img id="product-img" src="" alt="">
             <div>
                 <h2 id="product-title"></h2>
-                <p id="product-subtitle">Xizmat turi</p>
+                <p id="product-subtitle">Игровой сервис</p>
             </div>
         </div>
 
-        <div class="id-input-section">
-            <label>PLAYER ID</label>
-            <div class="input-wrapper">
-                <input type="number" placeholder="Player ID kiriting" id="player-id">
-                <button class="check-btn">Tekshirish</button>
-            </div>
+        <!-- Раздел ввода ID (динамический) -->
+        <div id="id-section" class="section-box"></div>
+
+        <!-- Раздел выбора товаров -->
+        <div class="category-selection-section">
+            <span class="section-title">ВЫБЕРИТЕ ТОВАР</span>
+            <div id="bg-text" class="bg-watermark">GAME</div> 
+            <div class="category-tabs" id="category-tabs"></div>
         </div>
 
-        <div class="category-tabs" id="category-tabs">
-            <!-- Kategoriyalar JS orqali chiqadi -->
-        </div>
+        <div class="prices-grid" id="prices-container"></div>
 
-        <div class="prices-grid" id="prices-container">
-            <!-- Narxlar JS orqali chiqadi -->
+        <div class="action-footer">
+            <button class="buy-btn-fixed" onclick="confirmPurchase()">Купить сейчас</button>
         </div>
-
-        <button class="buy-btn-fixed" onclick="confirmPurchase()">Sotib olish</button>
     </div>
 
     <div class="bottom-nav">
-        <div class="nav-item active"><i class="fas fa-home"></i> <span>Bosh sahifa</span></div>
-        <div class="nav-item"><i class="fas fa-history"></i> <span>Tarix</span></div>
-        <div class="nav-item"><i class="fas fa-user-cog"></i> <span>Sozlamalar</span></div>
+        <div class="nav-item active"><i class="fas fa-home"></i> <span>Главная</span></div>
+        <div class="nav-item"><i class="fas fa-shopping-bag"></i> <span>Заказы</span></div>
+        <div class="nav-item"><i class="fas fa-user"></i> <span>Профиль</span></div>
     </div>
 
     <script src="script.js"></script>
