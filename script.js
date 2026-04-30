@@ -1,7 +1,7 @@
 let tg = window.Telegram.WebApp;
 tg.expand();
 
-let currentData = null; // Храним данные текущей выбранной игры
+let currentData = null;
 
 const games = [
     { id: 'ff', name: "Free Fire", img: "img/ff.png" },
@@ -14,42 +14,22 @@ const games = [
 
 const priceData = {
     'ff': {
-        bg: "FREE FIRE",
         categories: [
-            { id: 'al', name: '💎 Алмазы', items: [{amount:"25",price:"5 000"},{amount:"100",price:"14 000"},{amount:"310",price:"35 000"},{amount:"520",price:"55 000"},{amount:"1,060",price:"110 000"},{amount:"2,180",price:"210 000"},{amount:"5,600",price:"510 000"}]},
-            { id: 'va', name: '🎫 Vaucher & BP', items: [{amount:"BP Card",price:"52 000"},{amount:"Lite haftalik",price:"8 000"},{amount:"Haftalik",price:"20 000"},{amount:"Oylik",price:"130 000"}]},
-            { id: 'ev', name: '🔥 Evo Access', items: [{amount:"Evo 3D",price:"12 000"},{amount:"Evo 7D",price:"18 000"},{amount:"Evo 30D",price:"40 000"}]}
+            { id: 'al', name: '💎 Алмазы', items: [{amount:"100",price:"14 000"},{amount:"310",price:"35 000"},{amount:"520",price:"55 000"}]},
+            { id: 'va', name: '🎫 Ваучеры', items: [{amount:"Haftalik",price:"20 000"},{amount:"Oylik",price:"130 000"}]}
         ]
     },
     'mlbb': {
-        bg: "MLBB",
         categories: [
-            { id: 'al', name: '💎 Алмазы', items: [{amount:"56",price:"12 000"},{amount:"112",price:"24 000"},{amount:"168",price:"32 000"},{amount:"223",price:"45 000"},{amount:"279",price:"50 000"},{amount:"336",price:"64 000"},{amount:"392",price:"70 000"},{amount:"570",price:"105 000"},{amount:"626",price:"112 000"},{amount:"1163",price:"202 000"},{amount:"2398",price:"400 000"},{amount:"6042",price:"990 000"}]},
-            { id: 'ps', name: '🎫 Pass', items: [{amount:"Twilight Pass",price:"100 000"},{amount:"Haftalik vaucher",price:"22 000"}]}
-        ]
-    },
-    'genshin': {
-        bg: "GENSHIN",
-        categories: [
-            { id: 'gs', name: '✨ Genesis', items: [{amount:"60",price:"14 000"},{amount:"120",price:"28 000"},{amount:"330",price:"52 000"},{amount:"660",price:"100 000"},{amount:"1090",price:"175 000"},{amount:"2240",price:"360 000"},{amount:"3880",price:"600 000"},{amount:"8080",price:"1 210 000"}]},
-            { id: 'ps', name: '🌙 Pass', items: [{amount:"Благословение",price:"52 000"}]}
-        ]
-    },
-    'arena': {
-        bg: "ARENA",
-        categories: [
-            { id: 'bd', name: '💰 Bonds', items: [{amount:"66",price:"13 000"},{amount:"335",price:"45 000"},{amount:"675",price:"95 000"},{amount:"1690",price:"230 000"},{amount:"3400",price:"460 000"},{amount:"6820",price:"995 000"}]},
-            { id: 'ky', name: '🔑 Keys', items: [{amount:"Beginner Select",price:"12 000"},{amount:"Bulletproof",price:"20 000"},{amount:"Composite",price:"80 000"}]},
-            { id: 'ps', name: '🎟 Pass', items: [{amount:"Monthly Adv",price:"16 000"},{amount:"Monthly Prem",price:"40 000"},{amount:"Quarterly Prem",price:"135 000"}]}
+            { id: 'al', name: '💎 Алмазы', items: [{amount:"56",price:"12 000"},{amount:"279",price:"50 000"}]},
+            { id: 'ps', name: '🎟 Pass', items: [{amount:"Twilight",price:"100 000"}]}
         ]
     },
     'stars': {
-        bg: "STARS",
-        categories: [{ id: 'st', name: '⭐ Stars', items: [{amount:"50",price:"12 000"},{amount:"100",price:"24 000"},{amount:"150",price:"35 000"},{amount:"200",price:"45 000"},{amount:"250",price:"65 000"},{amount:"300",price:"70 000"},{amount:"350",price:"80 000"},{amount:"500",price:"120 000"},{amount:"750",price:"170 000"},{amount:"1000",price:"230 000"}]}]
+        categories: [{ id: 'st', name: '⭐ Stars', items: [{amount:"50",price:"12 000"},{amount:"100",price:"24 000"}]}]
     },
     'tg_prem': {
-        bg: "PREMIUM",
-        categories: [{ id: 'pr', name: '⭐ Premium', items: [{amount:"3 oylik",price:"170 000"},{amount:"6 oylik",price:"230 000"},{amount:"1 yillik",price:"290 000"}]}]
+        categories: [{ id: 'pr', name: '⭐ Premium', items: [{amount:"3 oylik",price:"170 000"}]}]
     }
 };
 
@@ -64,13 +44,12 @@ function renderGames() {
 
 function openGame(gameId) {
     const game = games.find(g => g.id === gameId);
-    currentData = priceData[gameId];
+    currentData = priceData[gameId] || { categories: [{name:'Товары', items:[]}] };
     
     document.getElementById('main-page').style.display = 'none';
     document.getElementById('item-page').style.display = 'block';
     document.getElementById('product-title').innerText = game.name;
     document.getElementById('product-img').src = game.img;
-    document.getElementById('bg-text').innerText = currentData.bg;
 
     const idSection = document.getElementById('id-section');
     if(gameId === 'mlbb') {
@@ -90,6 +69,11 @@ function openGame(gameId) {
     renderPrices(currentData.categories[0].items);
 }
 
+function renderCats(cats) {
+    document.getElementById('category-tabs').innerHTML = cats.map((c, i) => 
+        `<div class="cat-tab ${i===0?'active':''}" onclick="changeCat(this, '${c.id}')">${c.name}</div>`).join('');
+}
+
 function changeCat(el, catId) {
     document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
     el.classList.add('active');
@@ -97,22 +81,16 @@ function changeCat(el, catId) {
     if(category) renderPrices(category.items);
 }
 
-function renderCats(cats) {
-    document.getElementById('category-tabs').innerHTML = cats.map((c, i) => 
-        `<div class="cat-tab ${i===0?'active':''}" onclick="changeCat(this, '${c.id}')">${c.name}</div>`).join('');
-}
-
 function renderPrices(items) {
     document.getElementById('prices-container').innerHTML = items.map(item => `
         <div class="price-item" onclick="selectItem(this)">
-            <span>${item.amount}</span><small>${item.price} сум</small>
+            <span>${item.amount}</span><br><small>${item.price} сум</small>
         </div>`).join('');
 }
 
 function fillSelf() {
     let user = tg.initDataUnsafe?.user;
     if(user?.username) document.getElementById('player-id').value = "@" + user.username;
-    else if(user?.id) document.getElementById('player-id').value = user.id;
 }
 
 function showMainPage() {
