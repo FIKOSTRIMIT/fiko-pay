@@ -4,47 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Fiko Shop</title>
-    <!-- Подключаем стили -->
     <link rel="stylesheet" href="style.css">
-    <!-- Иконки и Telegram SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/dist/css/all.min.css">
 </head>
 <body>
 
-    <div class="top-bar">
-        <div class="user-info">
-            <div class="avatar"></div>
-            <span class="username" id="user-name">@user</span>
+    <!-- ASOSIY SAHIFA -->
+    <div id="main-page">
+        <div class="top-bar">
+            <div class="user-info">
+                <div class="avatar"></div>
+                <span class="username" id="user-name">@fiko_user</span>
+            </div>
+            <div class="coins">
+                <i class="fas fa-circle coin-icon"></i> <span id="user-coins">11</span>
+            </div>
         </div>
-        <div class="coins">
-            <i class="fas fa-circle coin-icon"></i> <span id="user-coins">0</span>
+
+        <div class="balance-card">
+            <div class="bal-title">Balans</div>
+            <div class="bal-value">0 <small>so'm</small></div>
+            <div class="bal-actions">
+                <button class="bal-btn" onclick="sendAction('deposit')">
+                    <i class="fas fa-wallet"></i> <span>Hisobni to'ldirish</span>
+                </button>
+                <button class="bal-btn">
+                    <i class="fas fa-th-large"></i> <span>Bonus kodlar</span>
+                </button>
+                <button class="bal-btn">
+                    <i class="fas fa-headset"></i> <span>Qo'llab-quvvatlash</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="tabs-header">
+            <div class="tab active">O'yinlar</div>
+            <div class="tab inactive">Promokodlar</div>
+        </div>
+
+        <div class="games-grid" id="games-container">
+            <!-- JS orqali to'ldiriladi -->
         </div>
     </div>
 
-    <div class="balance-card">
-        <div class="bal-title">Balans</div>
-        <div class="bal-value">0 <small style="font-size: 14px;">so'm</small></div>
-        <div class="bal-actions">
-            <button class="bal-btn" onclick="sendAction('deposit')">
-                <i class="fas fa-wallet"></i> <span>Hisobni to'ldirish</span>
-            </button>
-            <button class="bal-btn">
-                <i class="fas fa-th-large"></i> <span>Bonus kodlar</span>
-            </button>
-            <button class="bal-btn">
-                <i class="fas fa-headset"></i> <span>Qo'llab-quvvatlash</span>
-            </button>
+    <!-- MAHSULOTLAR SAHIFASI -->
+    <div id="item-page" style="display: none;">
+        <div class="back-btn" onclick="showMainPage()">
+            <i class="fas fa-arrow-left"></i> Orqaga
         </div>
-    </div>
 
-    <div class="tabs">
-        <div class="tab active">O'yinlar</div>
-        <div class="tab inactive">Promokodlar</div>
-    </div>
+        <div class="product-header">
+            <img id="product-img" src="" alt="">
+            <div>
+                <h2 id="product-title"></h2>
+                <p id="product-subtitle">Xizmat turi</p>
+            </div>
+        </div>
 
-    <div class="games-grid" id="games-container">
-        <!-- Сетка игр (заполнится через JS) -->
+        <div class="id-input-section">
+            <label>PLAYER ID</label>
+            <div class="input-wrapper">
+                <input type="number" placeholder="Player ID kiriting" id="player-id">
+                <button class="check-btn">Tekshirish</button>
+            </div>
+        </div>
+
+        <div class="category-tabs" id="category-tabs">
+            <!-- Kategoriyalar JS orqali chiqadi -->
+        </div>
+
+        <div class="prices-grid" id="prices-container">
+            <!-- Narxlar JS orqali chiqadi -->
+        </div>
+
+        <button class="buy-btn-fixed" onclick="confirmPurchase()">Sotib olish</button>
     </div>
 
     <div class="bottom-nav">
@@ -53,7 +87,6 @@
         <div class="nav-item"><i class="fas fa-user-cog"></i> <span>Sozlamalar</span></div>
     </div>
 
-    <!-- Подключаем скрипты в самом конце -->
     <script src="script.js"></script>
 </body>
 </html>
