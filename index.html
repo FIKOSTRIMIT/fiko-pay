@@ -23,206 +23,138 @@
             background-color: var(--bg);
             color: var(--text);
             margin: 0; padding: 15px;
-            padding-bottom: 100px;
+            padding-bottom: 80px; /* Отступ под меню */
             overflow-x: hidden;
         }
 
-        /* --- ГЛАВНОЕ МЕНЮ --- */
+        /* ШАПКА */
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .user-info { display: flex; align-items: center; gap: 10px; }
         .avatar { width: 35px; height: 35px; background: #2e3750; border-radius: 50%; }
         .coins { background: #1e293b; padding: 5px 12px; border-radius: 20px; font-weight: bold; font-size: 14px; }
 
+        /* БАЛАНС */
         .balance-card { background: var(--card); border-radius: 24px; padding: 20px; margin-bottom: 25px; }
         .bal-value { font-size: 32px; font-weight: 800; margin: 10px 0 20px; }
         .bal-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .bal-btn { background: #1e293b; border: none; color: white; padding: 10px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 11px; }
+        .bal-btn { background: #1e293b; border: none; color: white; padding: 12px 5px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 10px; cursor: pointer; }
 
-        /* Сетка 3x3 */
-        .games-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        /* СЕТКА ИГР */
+        .games-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
         .game-item { text-align: center; cursor: pointer; }
         .game-img-container { width: 100%; aspect-ratio: 1/1; border-radius: 18px; overflow: hidden; background: var(--card); border: 1px solid rgba(255,255,255,0.05); }
-        .game-img-container img { width: 100%; height: 100%; object-fit: cover; }
-        .game-label { font-size: 10px; font-weight: 700; margin-top: 6px; display: block; text-transform: uppercase; }
+        .game-img-container img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .game-label { font-size: 10px; font-weight: 700; margin-top: 8px; display: block; text-transform: uppercase; color: var(--muted); }
 
-        /* --- СТРАНИЦА ТОВАРА --- */
-        .product-header { 
+        /* НИЖНЕЕ МЕНЮ */
+        .bottom-nav { 
+            position: fixed; 
+            bottom: 15px; left: 15px; right: 15px; 
+            background: #111827; 
+            border-radius: 25px; 
             display: flex; 
-            align-items: center; 
-            gap: 15px; 
-            background: var(--card); 
-            padding: 12px 18px; 
-            border-radius: 20px; 
-            margin-bottom: 20px; 
+            justify-content: space-around; 
+            padding: 10px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 1000;
         }
-        #product-img { width: 50px; height: 50px; border-radius: 12px; object-fit: cover; }
-        #product-title { font-size: 18px; margin: 0; }
-        #product-subtitle { font-size: 12px; color: var(--muted); margin: 0; }
-
-        .section-box { background: var(--card); border-radius: 20px; padding: 15px; margin-bottom: 20px; }
-        .input-inner { background: #1e293b; border-radius: 12px; border: 1px solid #334155; padding: 12px; }
-        .input-inner input { width: 100%; background: transparent; border: none; color: white; outline: none; }
-
-        /* Табы разделов */
-        .category-tabs { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 15px; padding-bottom: 5px; }
-        .cat-tab { background: #1e293b; padding: 8px 16px; border-radius: 12px; font-size: 12px; white-space: nowrap; cursor: pointer; border: 1px solid transparent; }
-        .cat-tab.active { background: var(--accent); color: white; border-color: rgba(255,255,255,0.2); }
-
-        .prices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .price-item { background: var(--card); border-radius: 15px; padding: 15px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; }
-        .price-item.selected { border-color: var(--accent); background: rgba(76, 62, 247, 0.1); }
-
-        .action-footer { position: fixed; bottom: 0; left: 0; width: 100%; padding: 15px; background: var(--bg); }
-        .buy-btn-fixed { width: 100%; background: var(--accent); color: white; border: none; border-radius: 15px; padding: 16px; font-weight: 700; font-size: 16px; }
-
-        .bottom-nav { position: fixed; bottom: 15px; left: 15px; right: 15px; background: #111827; border-radius: 30px; display: flex; justify-content: space-around; padding: 12px; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 10px; color: var(--muted); }
+        .nav-item { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 4px; 
+            font-size: 10px; 
+            color: var(--muted); 
+            flex: 1;
+        }
+        .nav-item i { font-size: 18px; }
         .nav-item.active { color: var(--accent); }
+
+        /* СКРЫТИЕ СТРАНИЦ */
+        #item-page { display: none; }
         
-        .back-btn { margin-bottom: 15px; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; color: var(--muted); font-size: 14px; }
-        .self-buy-btn { margin-top: 10px; width: 100%; background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 8px; border-radius: 10px; font-size: 12px; font-weight: bold; }
+        .product-header { display: flex; align-items: center; gap: 15px; background: var(--card); padding: 15px; border-radius: 20px; margin-bottom: 20px; }
+        #product-img { width: 50px; height: 50px; border-radius: 12px; }
     </style>
 </head>
 <body>
 
-    <!-- ГЛАВНАЯ -->
     <div id="main-page">
         <div class="top-bar">
             <div class="user-info">
                 <div class="avatar"></div>
-                <span class="username" id="user-name">@username</span>
+                <span id="user-name">@username</span>
             </div>
             <div class="coins"><i class="fas fa-circle" style="color:#facc15"></i> 11</div>
         </div>
 
         <div class="balance-card">
-            <div style="color:var(--muted); font-size:12px;">БАЛАНС</div>
-            <div class="bal-value">0 <small style="font-size:14px">сум</small></div>
+            <div style="color:var(--muted); font-size:11px; font-weight:bold;">БАЛАНС</div>
+            <div class="bal-value">0 <small style="font-size:14px; color:var(--muted)">сум</small></div>
             <div class="bal-actions">
-                <button class="bal-btn"><i class="fas fa-wallet"></i> Пополнить</button>
-                <button class="bal-btn"><i class="fas fa-percent"></i> Промокод</button>
-                <button class="bal-btn"><i class="fas fa-headset"></i> Помощь</button>
+                <div class="bal-btn"><i class="fas fa-wallet"></i> Пополнить</div>
+                <div class="bal-btn"><i class="fas fa-percent"></i> Промокод</div>
+                <div class="bal-btn"><i class="fas fa-headset"></i> Помощь</div>
             </div>
         </div>
 
         <div class="games-grid" id="games-container"></div>
     </div>
 
-    <!-- ТОВАР -->
-    <div id="item-page" style="display: none;">
-        <div class="back-btn" onclick="showMainPage()"><i class="fas fa-arrow-left"></i> Назад</div>
-
+    <!-- Страница товара -->
+    <div id="item-page">
+        <div style="padding: 10px 0; cursor:pointer;" onclick="showMainPage()"><i class="fas fa-arrow-left"></i> Назад</div>
         <div class="product-header">
-            <img id="product-img" src="" alt="">
+            <img id="item-img-display" src="" alt="">
             <div>
-                <h2 id="product-title"></h2>
-                <p id="product-subtitle">Игровой сервис</p>
+                <h2 id="item-title-display" style="margin:0; font-size:18px;"></h2>
+                <p style="margin:5px 0 0; color:var(--muted); font-size:12px;">Мгновенная доставка</p>
             </div>
         </div>
-
-        <div id="id-section" class="section-box"></div>
-
-        <div class="section-box" style="background:transparent; padding:0;">
-            <div class="category-tabs" id="category-tabs"></div>
-            <div class="prices-grid" id="prices-container"></div>
-        </div>
-
-        <div class="action-footer">
-            <button class="buy-btn-fixed">Купить сейчас</button>
-        </div>
+        <div style="text-align:center; padding:40px 20px; color:var(--muted);">Товары загружаются...</div>
     </div>
 
     <div class="bottom-nav">
-        <div class="nav-item active"><i class="fas fa-home"></i> Главная</div>
-        <div class="nav-item"><i class="fas fa-shopping-bag"></i> Заказы</div>
-        <div class="nav-item"><i class="fas fa-user"></i> Профиль</div>
+        <div class="nav-item active"><i class="fas fa-home"></i> <span>Главная</span></div>
+        <div class="nav-item"><i class="fas fa-shopping-bag"></i> <span>Заказы</span></div>
+        <div class="nav-item"><i class="fas fa-user"></i> <span>Профиль</span></div>
     </div>
 
     <script>
         let tg = window.Telegram.WebApp;
         tg.expand();
 
-        let currentData = null;
-
+        // Данные игр с путями относительно папки img
         const games = [
-            { id: 'ff', name: "Free Fire", img: "https://FikoSoft.github.io/img/ff.png" },
-            { id: 'mlbb', name: "MLBB", img: "https://FikoSoft.github.io/img/mlbb.png" },
-            { id: 'genshin', name: "Genshin", img: "https://FikoSoft.github.io/img/genshin.png" },
-            { id: 'arena', name: "Arena", img: "https://FikoSoft.github.io/img/arena.png" },
-            { id: 'stars', name: "Stars", img: "https://FikoSoft.github.io/img/stars.png" },
-            { id: 'tg_prem', name: "Premium", img: "https://FikoSoft.github.io/img/tg_prem.png" }
+            { id: 'ff', name: "Free Fire", img: "img/ff.png" },
+            { id: 'mlbb', name: "MLBB", img: "img/mlbb.png" },
+            { id: 'genshin', name: "Genshin", img: "img/genshin.png" },
+            { id: 'arena', name: "Arena", img: "img/arena.png" },
+            { id: 'stars', name: "Stars", img: "img/stars.png" },
+            { id: 'tg_prem', name: "Premium", img: "img/tg_prem.png" }
         ];
 
-        const priceData = {
-            'ff': {
-                categories: [
-                    { id: 'al', name: '💎 Алмазы', items: [{amount:"100",price:"14 000"},{amount:"310",price:"35 000"}]},
-                    { id: 'va', name: '🎫 Ваучеры', items: [{amount:"Haftalik",price:"22 000"},{amount:"Oylik",price:"130 000"}]}
-                ]
-            },
-            'mlbb': {
-                categories: [
-                    { id: 'al', name: '💎 Алмазы', items: [{amount:"56",price:"12 000"},{amount:"279",price:"50 000"}]},
-                    { id: 'ps', name: '🎫 Pass', items: [{amount:"Twilight",price:"100 000"}]}
-                ]
-            }
-        };
-
-        function renderGames() {
+        function render() {
             const container = document.getElementById('games-container');
-            container.innerHTML = games.map(game => `
-                <div class="game-item" onclick="openGame('${game.id}')">
-                    <div class="game-img-container"><img src="${game.img}" onerror="this.src='https://via.placeholder.com/150'"></div>
-                    <span class="game-label">${game.name}</span>
-                </div>`).join('');
+            container.innerHTML = games.map(g => `
+                <div class="game-item" onclick="openGame('${g.id}', '${g.name}', '${g.img}')">
+                    <div class="game-img-container">
+                        <img src="${g.img}" onerror="this.src='https://via.placeholder.com/150/111830/ffffff?text=Fiko'">
+                    </div>
+                    <span class="game-label">${g.name}</span>
+                </div>
+            `).join('');
+            
+            if(tg.initDataUnsafe?.user?.username) {
+                document.getElementById('user-name').innerText = '@' + tg.initDataUnsafe.user.username;
+            }
         }
 
-        function openGame(gameId) {
-            const game = games.find(g => g.id === gameId);
-            currentData = priceData[gameId] || { categories: [{id:'all', name:'Товары', items: [{amount:"Нет данных", price:"0"}]}] };
-            
+        function openGame(id, name, img) {
             document.getElementById('main-page').style.display = 'none';
             document.getElementById('item-page').style.display = 'block';
-            document.getElementById('product-title').innerText = game.name;
-            document.getElementById('product-img').src = game.img;
-
-            const idSection = document.getElementById('id-section');
-            if(gameId === 'mlbb') {
-                idSection.innerHTML = `<div style="display:grid;grid-template-columns:2fr 1fr;gap:10px;">
-                    <div><span class="input-inner"><input type="number" placeholder="PLAYER ID"></span></div>
-                    <div><span class="input-inner"><input type="number" placeholder="ZONE"></span></div>
-                </div>`;
-            } else {
-                idSection.innerHTML = `<div class="input-inner"><input type="text" id="player-id" placeholder="Введите ID"></div>`;
-            }
-
-            renderCats(currentData.categories);
-            renderPrices(currentData.categories[0].items);
-        }
-
-        function renderCats(cats) {
-            document.getElementById('category-tabs').innerHTML = cats.map((c, i) => 
-                `<div class="cat-tab ${i===0?'active':''}" onclick="changeCat(this, '${c.id}')">${c.name}</div>`).join('');
-        }
-
-        function changeCat(el, catId) {
-            document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
-            el.classList.add('active');
-            const category = currentData.categories.find(c => c.id === catId);
-            if(category) renderPrices(category.items);
-        }
-
-        function renderPrices(items) {
-            document.getElementById('prices-container').innerHTML = items.map(item => `
-                <div class="price-item" onclick="selectItem(this)">
-                    <div style="font-weight:bold; font-size:14px;">${item.amount}</div>
-                    <div style="color:var(--muted); font-size:11px; margin-top:4px;">${item.price} сум</div>
-                </div>`).join('');
-        }
-
-        function selectItem(el) {
-            document.querySelectorAll('.price-item').forEach(i => i.classList.remove('selected'));
-            el.classList.add('selected');
+            document.getElementById('item-title-display').innerText = name;
+            document.getElementById('item-img-display').src = img;
         }
 
         function showMainPage() {
@@ -230,7 +162,7 @@
             document.getElementById('item-page').style.display = 'none';
         }
 
-        renderGames();
+        render();
     </script>
 </body>
 </html>
