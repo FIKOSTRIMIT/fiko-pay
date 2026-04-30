@@ -3,87 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Fiko Shop - Full Menu</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/dist/css/all.min.css">
     <style>
-        :root { --bg: #0b0e11; --card: #1c2127; --accent: #5d5aff; --text: #ffffff; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 12px; }
-        
-        .balance-card {
-            background: linear-gradient(135deg, #5d5aff, #8b5aff);
-            border-radius: 20px; padding: 20px; margin-bottom: 20px;
-            box-shadow: 0 8px 20px rgba(93, 90, 255, 0.3);
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent: #3b82f6;
+            --success: #10b981;
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
         }
-        .bal-val { font-size: 28px; font-weight: 700; margin: 8px 0; }
-        .actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 15px; }
-        .btn-sm { background: rgba(255,255,255,0.2); border: none; border-radius: 12px; padding: 10px; color: #fff; font-size: 10px; font-weight: 600; }
 
-        .tabs { display: flex; gap: 8px; margin-bottom: 20px; }
-        .tab { flex: 1; padding: 12px; text-align: center; border-radius: 12px; background: var(--card); font-size: 14px; font-weight: 600; border: 1px solid transparent; }
-        .tab.active { background: #252a32; border-color: var(--accent); }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0; padding: 15px;
+            padding-bottom: 30px;
+        }
 
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding-bottom: 100px; }
-        .game-card { background: var(--card); border-radius: 18px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.05); }
-        .game-img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
-        .game-info { padding: 10px; text-align: center; }
-        .game-name { font-size: 12px; font-weight: 600; text-transform: uppercase; }
-        .badge { position: absolute; top: 8px; right: 8px; background: var(--accent); font-size: 9px; padding: 3px 7px; border-radius: 6px; font-weight: 700; }
+        /* Balans qismi */
+        .header-card {
+            background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+            padding: 20px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
 
-        .nav { position: fixed; bottom: 15px; left: 15px; right: 15px; background: #181a20; border-radius: 20px; display: flex; justify-content: space-around; padding: 15px; border: 1px solid #2b2f36; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .nav-i { font-size: 10px; opacity: 0.5; text-align: center; list-style: none; }
-        .nav-i.active { opacity: 1; color: var(--accent); }
+        .balance-label { font-size: 13px; opacity: 0.8; }
+        .balance-val { font-size: 26px; font-weight: 800; }
+        
+        .topup-btn {
+            background: rgba(255,255,255,0.2);
+            border: none; color: white;
+            padding: 10px 18px; border-radius: 12px;
+            font-weight: 600; cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Bo'lim sarlavhasi */
+        .category-title {
+            font-size: 17px; font-weight: 700;
+            margin: 25px 0 12px 5px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .category-title i { color: var(--accent); }
+
+        /* Mahsulotlar to'plami */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.2s;
+        }
+
+        .card:active { transform: scale(0.97); background: #334155; }
+
+        .name { font-size: 14px; font-weight: 600; display: block; margin-bottom: 4px; }
+        .price { font-size: 15px; color: var(--success); font-weight: 700; display: block; margin-bottom: 10px; }
+
+        .btn {
+            background: var(--accent);
+            border: none; color: white;
+            width: 100%; padding: 8px;
+            border-radius: 10px; font-weight: 600;
+            font-size: 13px; cursor: pointer;
+        }
+
+        /* Katta kartochka (Premium uchun) */
+        .wide-card { grid-column: span 2; display: flex; justify-content: space-between; align-items: center; }
     </style>
 </head>
 <body>
-    <div class="balance-card">
-        <div style="font-size: 12px; opacity: 0.8;">Balans</div>
-        <div class="bal-val" id="user-balance">0 so'm</div>
-        <div class="actions">
-            <button class="btn-sm" onclick="sendToBot('deposit')">💳 To'ldirish</button>
-            <button class="btn-sm">🎁 Bonuslar</button>
-            <button class="btn-sm">💬 Yordam</button>
+
+    <div class="header-card">
+        <div>
+            <div class="balance-label">Mening balansim</div>
+            <div class="balance-val">0 <small style="font-size: 14px;">so'm</small></div>
+        </div>
+        <button class="topup-btn" onclick="sendAction('deposit')">To'ldirish</button>
+    </div>
+
+    <!-- PUBG Mobile -->
+    <div class="category-title"><i class="fas fa-bolt"></i> PUBG Mobile UC</div>
+    <div class="grid">
+        <div class="card">
+            <span class="name">60 UC</span>
+            <span class="price">11,000 so'm</span>
+            <button class="btn" onclick="buy('60 UC', 11000)">Sotib olish</button>
+        </div>
+        <div class="card">
+            <span class="name">325 UC</span>
+            <span class="price">52,000 so'm</span>
+            <button class="btn" onclick="buy('325 UC', 52000)">Sotib olish</button>
+        </div>
+        <div class="card">
+            <span class="name">660 UC</span>
+            <span class="price">105,000 so'm</span>
+            <button class="btn" onclick="buy('660 UC', 105000)">Sotib olish</button>
+        </div>
+        <div class="card">
+            <span class="name">1800 UC</span>
+            <span class="price">265,000 so'm</span>
+            <button class="btn" onclick="buy('1800 UC', 265000)">Sotib olish</button>
         </div>
     </div>
 
-    <div class="tabs">
-        <div class="tab active">O'yinlar</div>
-        <div class="tab">Promokodlar</div>
-    </div>
-
-    <div class="grid" id="game-grid">
-        <div class="game-card" onclick="sendToBot('buy_pubg')">
-            <div class="badge">Global</div>
-            <img src="https://e7.pngegg.com/pngimages/514/1004/png-clipart-pubg-mobile-logo-pubg-logo.png" class="game-img">
-            <div class="game-info"><div class="game-name">PUBG MOBILE</div></div>
+    <!-- Telegram Premium -->
+    <div class="category-title"><i class="fab fa-telegram-plane"></i> Telegram Premium</div>
+    <div class="grid">
+        <div class="card wide-card">
+            <div>
+                <span class="name">Premium (1 oy)</span>
+                <span class="price">42,000 so'm</span>
+            </div>
+            <button class="btn" style="width: auto; padding: 10px 25px;" onclick="buy('TG Premium 1oy', 42000)">Olish</button>
         </div>
-        <div class="game-card" onclick="sendToBot('buy_ff')">
-            <div class="badge">SNG</div>
-            <img src="https://static.wikia.nocookie.net/free-fire/images/e/e7/App_Icon.png" class="game-img">
-            <div class="game-info"><div class="game-name">FREE FIRE</div></div>
-        </div>
-        <div class="game-card" onclick="sendToBot('buy_mlbb')">
-            <div class="badge">Global</div>
-            <img src="https://img.utdstc.com/icon/478/223/4782236371a53381665a5874f64795b2298751543ed963f237894a974b787595:200" class="game-img">
-            <div class="game-info"><div class="game-name">MLBB</div></div>
-        </div>
-        <div class="game-card" onclick="sendToBot('buy_arena')">
-            <div class="badge">AVTO</div>
-            <img src="https://play-lh.googleusercontent.com/I9E0Yp0S6NqH6j0a1k9A" class="game-img">
-            <div class="game-info"><div class="game-name">ARENA BREAKOUT</div></div>
+        <div class="card wide-card">
+            <div>
+                <span class="name">Premium (1 yil)</span>
+                <span class="price">399,000 so'm</span>
+            </div>
+            <button class="btn" style="width: auto; padding: 10px 25px;" onclick="buy('TG Premium 1yil', 399000)">Olish</button>
         </div>
     </div>
 
-    <div class="nav">
-        <div class="nav-i active">🏠 Sahifa</div>
-        <div class="nav-i">📜 Tarix</div>
-        <div class="nav-i">⚙️ Sozlamalar</div>
+    <!-- Boshqa xizmatlar -->
+    <div class="category-title"><i class="fas fa-ellipsis-h"></i> Boshqalar</div>
+    <div class="grid">
+        <div class="card">
+            <span class="name">Free Fire 110💎</span>
+            <span class="price">15,000 so'm</span>
+            <button class="btn" onclick="buy('FF 110 Diamonds', 15000)">Sotib olish</button>
+        </div>
+        <div class="card">
+            <span class="name">Ludo King 2x</span>
+            <span class="price">8,000 so'm</span>
+            <button class="btn" onclick="buy('Ludo King', 8000)">Sotib olish</button>
+        </div>
     </div>
 
     <script>
         let tg = window.Telegram.WebApp;
         tg.expand();
-        function sendToBot(action) {
+        tg.headerColor = '#0f172a';
+
+        function sendAction(action) {
             tg.sendData(JSON.stringify({action: action}));
+        }
+
+        function buy(name, price) {
+            tg.showConfirm(`${name} mahsulotini xarid qilmoqchimisiz?`, (confirmed) => {
+                if (confirmed) {
+                    tg.showPopup({
+                        title: 'Xarid',
+                        message: 'Hisobingizda mablag\' yetarli emas!',
+                        buttons: [{type: 'ok', text: 'Tushunarli'}]
+                    });
+                }
+            });
         }
     </script>
 </body>
