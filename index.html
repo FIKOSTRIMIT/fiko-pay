@@ -3,52 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Fiko Shop</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <title>Fiko Pay</title>
+    <!-- Подключаем твой файл стилей -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Иконки для кнопок -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/dist/css/all.min.css">
-    <style>
-        :root {
-            --bg: #04091a;
-            --card: #111830;
-            --accent: #4c3ef7;
-            --text: #ffffff;
-            --muted: #94a3b8;
-        }
-
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0; padding: 15px;
-            padding-bottom: 100px;
-        }
-
-        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .user-info { display: flex; align-items: center; gap: 10px; }
-        .avatar { width: 35px; height: 35px; background: #2e3750; border-radius: 50%; border: 1px solid #334155; }
-        .coins { background: #1e293b; padding: 6px 14px; border-radius: 20px; font-weight: bold; font-size: 14px; }
-
-        .balance-card { background: var(--card); border-radius: 24px; padding: 20px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.05); }
-        .bal-value { font-size: 32px; font-weight: 800; margin: 10px 0 20px; }
-        .bal-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .bal-btn { background: #1e293b; border: none; color: white; padding: 12px 5px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 10px; cursor: pointer; }
-
-        .games-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        .game-item { text-align: center; cursor: pointer; }
-        .game-img-container { width: 100%; aspect-ratio: 1/1; border-radius: 20px; overflow: hidden; background: var(--card); border: 1px solid rgba(255,255,255,0.1); }
-        .game-img-container img { width: 100%; height: 100%; object-fit: cover; }
-        .game-label { font-size: 10px; font-weight: 700; margin-top: 8px; display: block; text-transform: uppercase; color: var(--muted); }
-
-        #item-page { display: none; }
-        .product-header { display: flex; align-items: center; gap: 15px; background: var(--card); padding: 15px; border-radius: 20px; margin-bottom: 20px; }
-        #item-img-display { width: 50px; height: 50px; border-radius: 12px; }
-
-        .bottom-nav { position: fixed; bottom: 15px; left: 15px; right: 15px; background: #111827; border-radius: 25px; display: flex; justify-content: space-around; padding: 12px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 10px; color: var(--muted); flex: 1; }
-        .nav-item.active { color: var(--accent); }
-        .back-btn { margin-bottom: 15px; cursor: pointer; color: var(--muted); font-size: 14px; }
-    </style>
 </head>
 <body>
 
@@ -62,7 +21,7 @@
         </div>
 
         <div class="balance-card">
-            <div style="color:var(--muted); font-size:11px; font-weight:bold;">БАЛАНС</div>
+            <div style="color:var(--muted); font-size:11px; font-weight:bold; letter-spacing: 1px;">БАЛАНС</div>
             <div class="bal-value">0 <small style="font-size:14px; color:var(--muted)">сум</small></div>
             <div class="bal-actions">
                 <div class="bal-btn"><i class="fas fa-wallet"></i> Пополнить</div>
@@ -71,69 +30,19 @@
             </div>
         </div>
 
+        <!-- Сюда скрипт вставит сетку игр -->
         <div class="games-grid" id="games-container"></div>
     </div>
 
-    <div id="item-page">
-        <div class="back-btn" onclick="showMainPage()"><i class="fas fa-arrow-left"></i> Назад</div>
-        <div class="product-header">
-            <img id="item-img-display" src="" alt="">
-            <div>
-                <h2 id="item-title-display" style="margin:0; font-size:18px;"></h2>
-                <p style="margin:5px 0 0; color:var(--muted); font-size:12px;">Мгновенно</p>
-            </div>
-        </div>
-        <div style="text-align:center; padding:50px; color:var(--muted);">Товары загружаются...</div>
-    </div>
-
+    <!-- Нижнее меню -->
     <div class="bottom-nav">
         <div class="nav-item active"><i class="fas fa-home"></i> <span>Главная</span></div>
         <div class="nav-item"><i class="fas fa-shopping-bag"></i> <span>Заказы</span></div>
         <div class="nav-item"><i class="fas fa-user"></i> <span>Профиль</span></div>
     </div>
 
-    <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand();
-
-        const games = [
-            { id: 'ff', name: "Free Fire", img: "ff.png" },
-            { id: 'mlbb', name: "MLBB", img: "mlbb.png" },
-            { id: 'genshin', name: "Genshin", img: "genshin.png" },
-            { id: 'arena', name: "Arena", img: "arena.png" },
-            { id: 'stars', name: "Stars", img: "stars.png" },
-            { id: 'tg_prem', name: "Premium", img: "tg_prem.png" }
-        ];
-
-        function render() {
-            const container = document.getElementById('games-container');
-            container.innerHTML = games.map(g => `
-                <div class="game-item" onclick="openGame('${g.id}', '${g.name}', '${g.img}')">
-                    <div class="game-img-container">
-                        <img src="${g.img}" onerror="this.src='https://via.placeholder.com/150/111830/ffffff?text=Fiko'">
-                    </div>
-                    <span class="game-label">${g.name}</span>
-                </div>
-            `).join('');
-            
-            if(tg.initDataUnsafe?.user?.username) {
-                document.getElementById('user-name').innerText = '@' + tg.initDataUnsafe.user.username;
-            }
-        }
-
-        function openGame(id, name, img) {
-            document.getElementById('main-page').style.display = 'none';
-            document.getElementById('item-page').style.display = 'block';
-            document.getElementById('item-title-display').innerText = name;
-            document.getElementById('item-img-display').src = img;
-        }
-
-        function showMainPage() {
-            document.getElementById('main-page').style.display = 'block';
-            document.getElementById('item-page').style.display = 'none';
-        }
-
-        render();
-    </script>
+    <!-- Подключаем скрипты в самом конце -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
