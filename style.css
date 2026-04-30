@@ -1,27 +1,57 @@
+:root {
+    --bg: #04091a;
+    --card: #111830;
+    --accent: #4c3ef7;
+    --text: #ffffff;
+    --muted: #94a3b8;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    margin: 0; padding: 15px;
+    padding-bottom: 100px;
+}
+
 .hidden { display: none !important; }
 
-.back-btn { 
-    color: var(--accent); 
-    cursor: pointer; 
-    margin-bottom: 20px; 
-    display: inline-block; 
-}
+/* Шапка */
+.top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.user-info { display: flex; align-items: center; gap: 10px; }
+.avatar { width: 35px; height: 35px; background: #2e3750; border-radius: 50%; border: 1px solid #334155; }
+.coins { background: #1e293b; padding: 6px 14px; border-radius: 20px; font-weight: bold; font-size: 13px; }
 
-.product-card {
-    background: var(--card);
-    border: 1px solid rgba(255,255,255,0.05);
-    border-radius: 15px;
-    padding: 15px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+/* Баланс */
+.balance-card { background: var(--card); border-radius: 24px; padding: 20px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.05); }
+.bal-value { font-size: 32px; font-weight: 800; margin: 10px 0 20px; }
+.bal-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.bal-btn { background: #1e293b; border: none; color: white; padding: 12px; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 12px; }
 
-.price-tag {
-    background: var(--accent);
-    padding: 5px 10px;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 12px;
+/* Сетка выбора игр */
+.games-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.game-item { text-align: center; cursor: pointer; }
+.game-img-container { width: 100%; aspect-ratio: 1/1; border-radius: 20px; overflow: hidden; background: var(--card); border: 1px solid rgba(255,255,255,0.1); }
+.game-img-container img { width: 100%; height: 100%; object-fit: cover; }
+.game-label { font-size: 10px; font-weight: 700; margin-top: 8px; display: block; color: var(--muted); }
+
+/* Карточки товаров */
+.back-btn { color: var(--accent); cursor: pointer; margin-bottom: 20px; font-weight: bold; }
+.product-card { 
+    background: var(--card); 
+    border-radius: 15px; 
+    padding: 15px; 
+    margin-bottom: 10px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    border: 1px solid rgba(255,255,255,0.05); 
 }
+.price-tag { background: var(--accent); padding: 6px 12px; border-radius: 10px; font-size: 12px; font-weight: bold; }
+
+/* Навигация */
+.bottom-nav { position: fixed; bottom: 15px; left: 15px; right: 15px; background: #111827; border-radius: 25px; display: flex; padding: 12px 0; }
+.nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 10px; color: var(--muted); flex: 1; }
+.nav-item.active { color: var(--accent); }
