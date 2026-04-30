@@ -1,43 +1,80 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/dist/css/all.min.css">
-</head>
-<body>
+let tg = window.Telegram.WebApp;
+tg.expand();
 
-    <!-- Главная страница -->
-    <div id="main-page">
-        <div class="top-bar">
-            <div class="user-info"><div class="avatar"></div> <span id="user-name">@username</span></div>
-            <div class="coins"><i class="fas fa-circle" style="color:#facc15"></i> 11</div>
-        </div>
-        <div class="balance-card">
-            <div style="color:var(--muted); font-size:11px;">БАЛАНС</div>
-            <div class="bal-value">0 <small style="font-size:14px;">сум</small></div>
-            <div class="bal-actions">
-                <div class="bal-btn"><i class="fas fa-wallet"></i> Пополнить</div>
-                <div class="bal-btn"><i class="fas fa-percent"></i> Промокод</div>
+// База данных товаров
+const products = {
+    'ff': [
+        { id: 'ff_100', name: "100 Алмазов", price: "12 000 сум" },
+        { id: 'ff_530', name: "530 Алмазов", price: "55 000 сум" }
+    ],
+    'stars': [
+        { id: 'st_10', name: "Кейс 1", price: "10 Stars" },
+        { id: 'st_25', name: "Кейс 2", price: "25 Stars" },
+        { id: 'st_50', name: "Кейс 3", price: "50 Stars" },
+        { id: 'st_100', name: "Кейс 4", price: "100 Stars" },
+        { id: 'st_250', name: "Кейс 5", price: "250 Stars" },
+        { id: 'st_500', name: "Кейс 6", price: "500 Stars" }
+    ],
+    'tg_prem': [
+        { id: 'prem_1m', name: "Telegram Premium 1 мес.", price: "45 000 сум" },
+        { id: 'prem_1y', name: "Telegram Premium 1 год", price: "350 000 сум" }
+    ]
+};
+
+const games = [
+    { id: 'ff', name: "Free Fire", img: "img/ff.png" },
+    { id: 'mlbb', name: "MLBB", img: "img/mlbb.png" },
+    { id: 'stars', name: "Stars", img: "img/stars.png" },
+    { id: 'tg_prem', name: "Premium", img: "img/tg_prem.png" }
+];
+
+window.renderGames = function() {
+    const container = document.getElementById('games-container');
+    if (!container) return;
+    container.innerHTML = games.map(g => `
+        <div class="game-item" onclick="openCategory('${g.id}', '${g.name}')">
+            <div class="game-img-container">
+                <img src="${g.img}" onerror="this.src='https://via.placeholder.com/150/111830/ffffff?text=Fiko'">
             </div>
+            <span class="game-label">${g.name}</span>
         </div>
-        <div class="games-grid" id="games-container"></div>
-    </div>
+    `).join('');
+};
 
-    <!-- Страница товаров -->
-    <div id="product-page" class="hidden">
-        <div class="back-btn" onclick="goBack()"><i class="fas fa-arrow-left"></i> Назад</div>
-        <h2 id="cat-title" style="margin-bottom: 20px;"></h2>
-        <div id="products-list"></div>
-    </div>
+window.openCategory = function(id, name) {
+    tg.HapticFeedback.impactOccurred('medium');
+    document.getElementById('main-page').classList.add('hidden');
+    document.getElementById('product-page').classList.remove('hidden');
+    document.getElementById('cat-title').innerText = name;
 
-    <div class="bottom-nav">
-        <div class="nav-item active"><i class="fas fa-home"></i><span>Главная</span></div>
-        <div class="nav-item"><i class="fas fa-shopping-bag"></i><span>Заказы</span></div>
-    </div>
+    const list = document.getElementById('products-list');
+    const items = products[id] || [];
+    list.innerHTML = items.length ? items.map(p => `
+        <div class="product-card" onclick="selectProduct('${p.name}', '${p.price}')">
+            <span>${p.name}</span>
+            <span class="price-tag">${p.price}</span>
+        </div>
+    `).join('') : '<div style="color:gray; padding:20px;">Скоро в продаже...</div>';
+};
 
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="script.js"></script>
-</body>
-</html>
+window.goBack = function() {
+    document.getElementById('main-page').classList.remove('hidden');
+    document.getElementById('product-page').classList.add('hidden');
+};
+
+window.selectProduct = function(name, price) {
+    tg.showConfirm(`Купить ${name} за ${price}?`, (ok) => {
+        if(ok) {
+            tg.sendData(JSON.stringify({item: name, price: price}));
+            tg.close();
+        }
+    });
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    renderGames();
+    if(tg.initDataUnsafe?.user?.username) {
+        document.getElementById('user-name').innerText = '@' + tg.initDataUnsafe.user.username;
+    }
+    tg.ready();
+});
