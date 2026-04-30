@@ -3,179 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Fiko Shop - Full Menu</title>
+    <title>Fiko Shop</title>
+    <!-- Подключаем стили -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Иконки и Telegram SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/dist/css/all.min.css">
-    <style>
-        :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --accent: #3b82f6;
-            --success: #10b981;
-            --text-main: #ffffff;
-            --text-muted: #94a3b8;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0; padding: 15px;
-            padding-bottom: 30px;
-        }
-
-        /* Balans qismi */
-        .header-card {
-            background: linear-gradient(135deg, #1d4ed8, #3b82f6);
-            padding: 20px;
-            border-radius: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            margin-bottom: 20px;
-        }
-
-        .balance-label { font-size: 13px; opacity: 0.8; }
-        .balance-val { font-size: 26px; font-weight: 800; }
-        
-        .topup-btn {
-            background: rgba(255,255,255,0.2);
-            border: none; color: white;
-            padding: 10px 18px; border-radius: 12px;
-            font-weight: 600; cursor: pointer;
-            backdrop-filter: blur(5px);
-        }
-
-        /* Bo'lim sarlavhasi */
-        .category-title {
-            font-size: 17px; font-weight: 700;
-            margin: 25px 0 12px 5px;
-            display: flex; align-items: center; gap: 8px;
-        }
-        .category-title i { color: var(--accent); }
-
-        /* Mahsulotlar to'plami */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 18px;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: 0.2s;
-        }
-
-        .card:active { transform: scale(0.97); background: #334155; }
-
-        .name { font-size: 14px; font-weight: 600; display: block; margin-bottom: 4px; }
-        .price { font-size: 15px; color: var(--success); font-weight: 700; display: block; margin-bottom: 10px; }
-
-        .btn {
-            background: var(--accent);
-            border: none; color: white;
-            width: 100%; padding: 8px;
-            border-radius: 10px; font-weight: 600;
-            font-size: 13px; cursor: pointer;
-        }
-
-        /* Katta kartochka (Premium uchun) */
-        .wide-card { grid-column: span 2; display: flex; justify-content: space-between; align-items: center; }
-    </style>
 </head>
 <body>
 
-    <div class="header-card">
-        <div>
-            <div class="balance-label">Mening balansim</div>
-            <div class="balance-val">0 <small style="font-size: 14px;">so'm</small></div>
+    <div class="top-bar">
+        <div class="user-info">
+            <div class="avatar"></div>
+            <span class="username" id="user-name">@user</span>
         </div>
-        <button class="topup-btn" onclick="sendAction('deposit')">To'ldirish</button>
-    </div>
-
-    <!-- PUBG Mobile -->
-    <div class="category-title"><i class="fas fa-bolt"></i> PUBG Mobile UC</div>
-    <div class="grid">
-        <div class="card">
-            <span class="name">60 UC</span>
-            <span class="price">11,000 so'm</span>
-            <button class="btn" onclick="buy('60 UC', 11000)">Sotib olish</button>
-        </div>
-        <div class="card">
-            <span class="name">325 UC</span>
-            <span class="price">52,000 so'm</span>
-            <button class="btn" onclick="buy('325 UC', 52000)">Sotib olish</button>
-        </div>
-        <div class="card">
-            <span class="name">660 UC</span>
-            <span class="price">105,000 so'm</span>
-            <button class="btn" onclick="buy('660 UC', 105000)">Sotib olish</button>
-        </div>
-        <div class="card">
-            <span class="name">1800 UC</span>
-            <span class="price">265,000 so'm</span>
-            <button class="btn" onclick="buy('1800 UC', 265000)">Sotib olish</button>
+        <div class="coins">
+            <i class="fas fa-circle coin-icon"></i> <span id="user-coins">0</span>
         </div>
     </div>
 
-    <!-- Telegram Premium -->
-    <div class="category-title"><i class="fab fa-telegram-plane"></i> Telegram Premium</div>
-    <div class="grid">
-        <div class="card wide-card">
-            <div>
-                <span class="name">Premium (1 oy)</span>
-                <span class="price">42,000 so'm</span>
-            </div>
-            <button class="btn" style="width: auto; padding: 10px 25px;" onclick="buy('TG Premium 1oy', 42000)">Olish</button>
-        </div>
-        <div class="card wide-card">
-            <div>
-                <span class="name">Premium (1 yil)</span>
-                <span class="price">399,000 so'm</span>
-            </div>
-            <button class="btn" style="width: auto; padding: 10px 25px;" onclick="buy('TG Premium 1yil', 399000)">Olish</button>
+    <div class="balance-card">
+        <div class="bal-title">Balans</div>
+        <div class="bal-value">0 <small style="font-size: 14px;">so'm</small></div>
+        <div class="bal-actions">
+            <button class="bal-btn" onclick="sendAction('deposit')">
+                <i class="fas fa-wallet"></i> <span>Hisobni to'ldirish</span>
+            </button>
+            <button class="bal-btn">
+                <i class="fas fa-th-large"></i> <span>Bonus kodlar</span>
+            </button>
+            <button class="bal-btn">
+                <i class="fas fa-headset"></i> <span>Qo'llab-quvvatlash</span>
+            </button>
         </div>
     </div>
 
-    <!-- Boshqa xizmatlar -->
-    <div class="category-title"><i class="fas fa-ellipsis-h"></i> Boshqalar</div>
-    <div class="grid">
-        <div class="card">
-            <span class="name">Free Fire 110💎</span>
-            <span class="price">15,000 so'm</span>
-            <button class="btn" onclick="buy('FF 110 Diamonds', 15000)">Sotib olish</button>
-        </div>
-        <div class="card">
-            <span class="name">Ludo King 2x</span>
-            <span class="price">8,000 so'm</span>
-            <button class="btn" onclick="buy('Ludo King', 8000)">Sotib olish</button>
-        </div>
+    <div class="tabs">
+        <div class="tab active">O'yinlar</div>
+        <div class="tab inactive">Promokodlar</div>
     </div>
 
-    <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand();
-        tg.headerColor = '#0f172a';
+    <div class="games-grid" id="games-container">
+        <!-- Сетка игр (заполнится через JS) -->
+    </div>
 
-        function sendAction(action) {
-            tg.sendData(JSON.stringify({action: action}));
-        }
+    <div class="bottom-nav">
+        <div class="nav-item active"><i class="fas fa-home"></i> <span>Bosh sahifa</span></div>
+        <div class="nav-item"><i class="fas fa-history"></i> <span>Tarix</span></div>
+        <div class="nav-item"><i class="fas fa-user-cog"></i> <span>Sozlamalar</span></div>
+    </div>
 
-        function buy(name, price) {
-            tg.showConfirm(`${name} mahsulotini xarid qilmoqchimisiz?`, (confirmed) => {
-                if (confirmed) {
-                    tg.showPopup({
-                        title: 'Xarid',
-                        message: 'Hisobingizda mablag\' yetarli emas!',
-                        buttons: [{type: 'ok', text: 'Tushunarli'}]
-                    });
-                }
-            });
-        }
-    </script>
+    <!-- Подключаем скрипты в самом конце -->
+    <script src="script.js"></script>
 </body>
 </html>
