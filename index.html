@@ -1,24 +1,103 @@
-<!-- 1. Нижнее меню (Tab Bar) без «Ijaraga» -->
-<div class="tab-bar">
-    <div class="tab-item" onclick="showPage('home')">Bosh sahifa</div>
-    <div class="tab-item" onclick="showPage('history')">Tarix</div>
-    <div class="tab-item" onclick="showPage('settings')">Sozlamalar</div>
-</div>
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Katabump Web App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="snow-canvas"></canvas>
 
-<!-- 2. Блок оплаты с твоими данными -->
-<div id="payment-modal" class="modal">
-    <div class="card-info">
-        <p>Karta raqami:</p>
-        <h2 id="card-num">9860 6004 0506 9466</h2>
-        <p>Ega: <b>Zokirjonov Zikirillo</b></p>
-        <button onclick="copyCard()">Nusxalash</button>
-    </div>
-    
-    <div class="rules">
-        <p>✅ Aynan shu summani yuboring!</p>
-        <p>✅ 5 daqiqa ichida to'lov qiling!</p>
-    </div>
+    <!-- Header: Ава и Имя -->
+    <header class="user-header">
+        <div class="user-info">
+            <img id="user-ava" src="https://via.placeholder.com/40" alt="Ava">
+            <span id="user-name">Fiko User</span>
+        </div>
+        <div class="top-coins">
+            <span id="coin-count">11</span> <span class="coin-icon">🟡</span>
+        </div>
+    </header>
 
-    <!-- Кнопка подтверждения -->
-    <button class="btn-confirm" onclick="sendPaymentNotification()">To'lov qildim</button>
-</div>
+    <!-- ЭКРАН 1: ГЛАВНАЯ -->
+    <main id="screen-home" class="screen active">
+        <section class="balance-card">
+            <p id="lang-balance-label">Balans</p>
+            <h1 id="user-balance">0 <span>so'm</span></h1>
+            <div class="action-buttons">
+                <button onclick="openPayment()" id="lang-btn-deposit">Hisobni to'ldirish</button>
+                <button onclick="openBonus()" id="lang-btn-bonus">Bonus kodlar</button>
+                <button onclick="openSupport()" id="lang-btn-support">Qo'llab-quvvatlash</button>
+            </div>
+        </section>
+
+        <section class="game-grid">
+            <div class="game-item"><img src="pubg.jpg"><span>PUBG</span></div>
+            <div class="game-item"><img src="freefire.jpg"><span>Free Fire</span></div>
+            <div class="game-item"><img src="steam.jpg"><span>Steam</span></div>
+        </section>
+    </main>
+
+    <!-- ЭКРАН 2: ИСТОРИЯ -->
+    <main id="screen-history" class="screen">
+        <div class="history-tabs">
+            <button class="tab-btn active" onclick="switchHistoryTab('orders')" id="lang-tab-orders">Xaridlar</button>
+            <button class="tab-btn" onclick="switchHistoryTab('deposits')" id="lang-tab-deposits">Moliya</button>
+        </div>
+        <div id="history-content" class="list-container">
+            <!-- Сюда будут падать данные из JS -->
+            <p class="empty-msg" id="lang-empty">Tranzaksiyalar yo'q</p>
+        </div>
+    </main>
+
+    <!-- ЭКРАН 3: ПРОФИЛЬ (НАСТРОЙКИ) -->
+    <main id="screen-settings" class="screen">
+        <section class="profile-preview">
+            <img id="profile-ava-large" src="https://via.placeholder.com/80">
+            <h2 id="profile-name-large">@FeeM4n</h2>
+            <div class="profile-stats">
+                <div><p id="lang-p-bal">Balans</p><b>0 so'm</b></div>
+                <div><p id="lang-p-cash">Keshbek</p><b>11</b></div>
+            </div>
+        </section>
+
+        <div class="settings-group">
+            <label id="lang-label-lang">Til</label>
+            <div class="lang-switch">
+                <button onclick="setLanguage('uz')" id="btn-uz">O'zbekcha</button>
+                <button onclick="setLanguage('ru')" id="btn-ru">Русский</button>
+            </div>
+        </div>
+
+        <div class="settings-list">
+            <div class="setting-item">
+                <span id="lang-opt-anim">Animatsiyalar</span>
+                <input type="checkbox" id="toggle-anim" checked>
+            </div>
+            <div class="setting-item">
+                <span id="lang-opt-theme">Tungi rejim</span>
+                <input type="checkbox" id="toggle-theme" checked>
+            </div>
+            <div class="setting-item">
+                <span id="lang-opt-snow">Qish rejimi (Qor)</span>
+                <input type="checkbox" id="toggle-snow" onchange="toggleSnow()">
+            </div>
+            <div class="setting-item" onclick="openSupport()">
+                <span id="lang-opt-help">Qo'llab-quvvatlash</span>
+                <span class="arrow">→</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- НИЖНЕЕ МЕНЮ -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="showScreen('home')">🏠 <span id="lang-nav-home">Asosiy</span></div>
+        <div class="nav-item" onclick="showScreen('history')">🕒 <span id="lang-nav-hist">Tarix</span></div>
+        <div class="nav-item" onclick="showScreen('settings')">👤 <span id="lang-nav-prof">Profil</span></div>
+    </nav>
+
+    <script src="app.js"></script>
+</body>
+</html>
