@@ -1,1 +1,58 @@
+/* Вставь это в свой файл стилей или между тегами <style> */
+body {
+    background-color: #0d1117; /* Темный фон как на скринах */
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    padding: 20px;
+}
 
+/* Стили для карточки с реквизитами */
+.card-info {
+    background: linear-gradient(135deg, #5e5ce6 0%, #3a38d2 100%); /* Фиолетовый градиент */
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.card-num {
+    font-size: 22px;
+    letter-spacing: 2px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+/* Стили для правил (зеленые и красные плашки) */
+.rules {
+    background-color: #161b22;
+    border-radius: 10px;
+    padding: 15px;
+    border-left: 4px solid #31b545; /* Зеленая полоска сбоку */
+}
+
+/* Кнопка "To'lov qildim" */
+.btn-confirm {
+    background-color: #31b545; /* Зеленый цвет */
+    color: white;
+    border: none;
+    padding: 15px;
+    width: 100%;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+/* Нижнее меню (Tab Bar) */
+.tab-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background-color: #161b22;
+    padding: 10px 0;
+    border-top: 1px solid #30363d;
+}
