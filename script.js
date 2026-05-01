@@ -1,33 +1,31 @@
 let tg = window.Telegram.WebApp;
 tg.expand();
 
-function switchTab(tab) {
-    tg.HapticFeedback.impactOccurred('light');
-    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-    document.getElementById('nav-' + tab).classList.add('active');
-    
-    document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
-    document.getElementById(tab + '-page').classList.remove('hidden');
+// Загрузка данных пользователя
+const user = tg.initDataUnsafe.user;
+if (user) {
+    document.getElementById('user-name').innerText = user.first_name;
+    if (user.photo_url) document.getElementById('user-photo').style.backgroundImage = `url('${user.photo_url}')`;
 }
 
-function toggleDark() {
-    const isDark = document.getElementById('dark-toggle').checked;
-    document.body.classList.toggle('light-mode', !isDark);
+// Навигация
+function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+    document.getElementById(pageId).classList.remove('hidden');
+    tg.HapticFeedback.selectionChanged();
+}
+
+// Внутреннее меню игры
+function openGameDetail(id, title) {
+    document.getElementById('home-page').classList.add('hidden');
+    document.getElementById('game-detail-page').classList.remove('hidden');
+    document.getElementById('current-game-title').innerText = title;
+    document.querySelector('.nav-container').style.display = 'none';
     tg.HapticFeedback.impactOccurred('medium');
 }
 
-function toggleAnims() {
-    const animsOn = document.getElementById('anim-toggle').checked;
-    document.body.classList.toggle('no-animations', !animsOn);
-    tg.HapticFeedback.impactOccurred('light');
-}
-
-function openSupport() {
-    tg.openTelegramLink("https://t.me/FikoYT");
-}
-
-function switchHistoryTab(type) {
-    document.querySelectorAll('.history-tab').forEach(t => t.classList.remove('active'));
-    document.getElementById('tab-' + type).classList.add('active');
-    document.getElementById('finance-list').classList.toggle('hidden', type !== 'finance');
+function closeGameDetail() {
+    document.getElementById('game-detail-page').classList.add('hidden');
+    document.getElementById('home-page').classList.remove('hidden');
+    document.querySelector('.nav-container').style.display = 'flex';
 }
