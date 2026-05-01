@@ -1,58 +1,64 @@
-/* Вставь это в свой файл стилей или между тегами <style> */
+:root {
+    --bg: #0b0e16;
+    --card: #161b26;
+    --accent: #5e5ce6;
+    --text: #ffffff;
+    --text-dim: #94a3b8;
+    --green: #10b981;
+    --orange: #f59e0b;
+    --red: #ef4444;
+}
+
 body {
-    background-color: #0d1117; /* Темный фон как на скринах */
-    color: #ffffff;
-    font-family: 'Inter', sans-serif;
-    padding: 20px;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0; font-family: sans-serif;
+    overflow-x: hidden;
 }
 
-/* Стили для карточки с реквизитами */
-.card-info {
-    background: linear-gradient(135deg, #5e5ce6 0%, #3a38d2 100%); /* Фиолетовый градиент */
-    border-radius: 15px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+#snow-canvas {
+    position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
 }
 
-.card-num {
-    font-size: 22px;
-    letter-spacing: 2px;
-    font-weight: bold;
-    margin: 10px 0;
+/* User Header */
+.user-header {
+    display: flex; justify-content: space-between; padding: 15px; align-items: center;
+}
+.user-info img { border-radius: 50%; margin-right: 10px; vertical-align: middle; }
+
+/* Balance Card */
+.balance-card {
+    background: var(--card); margin: 15px; padding: 20px; border-radius: 20px; text-align: center;
+}
+.action-buttons { display: flex; gap: 10px; margin-top: 15px; }
+.action-buttons button {
+    flex: 1; background: #262c3a; border: none; color: white; padding: 10px 5px; border-radius: 10px; font-size: 11px;
 }
 
-/* Стили для правил (зеленые и красные плашки) */
-.rules {
-    background-color: #161b22;
-    border-radius: 10px;
-    padding: 15px;
-    border-left: 4px solid #31b545; /* Зеленая полоска сбоку */
-}
+/* Screens */
+.screen { display: none; padding-bottom: 80px; }
+.screen.active { display: block; animation: fadeIn 0.3s ease; }
 
-/* Кнопка "To'lov qildim" */
-.btn-confirm {
-    background-color: #31b545; /* Зеленый цвет */
-    color: white;
-    border: none;
-    padding: 15px;
-    width: 100%;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    margin-top: 20px;
-    cursor: pointer;
-}
+/* Tabs */
+.history-tabs { display: flex; justify-content: center; gap: 10px; margin: 15px; }
+.tab-btn { background: #1e2433; border: none; color: var(--text-dim); padding: 8px 20px; border-radius: 20px; }
+.tab-btn.active { background: var(--accent); color: white; }
 
-/* Нижнее меню (Tab Bar) */
-.tab-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    background-color: #161b22;
-    padding: 10px 0;
-    border-top: 1px solid #30363d;
+/* Settings */
+.settings-list { background: var(--card); margin: 15px; border-radius: 20px; overflow: hidden; }
+.setting-item {
+    display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #262c3a;
 }
+.lang-switch { display: flex; gap: 5px; background: #1e2433; padding: 5px; border-radius: 12px; }
+.lang-switch button { background: none; border: none; color: white; padding: 5px 15px; border-radius: 8px; }
+
+/* Bottom Nav */
+.bottom-nav {
+    position: fixed; bottom: 0; width: 100%; background: var(--card);
+    display: flex; justify-content: space-around; padding: 15px 0;
+    border-top: 1px solid #262c3a;
+}
+.nav-item { text-align: center; font-size: 10px; color: var(--text-dim); }
+.nav-item.active { color: var(--accent); }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
