@@ -1,47 +1,24 @@
-<!-- Главная: Профиль -->
-<div class="main-header">
-    <div class="user-profile">
-        <div class="user-avatar" id="user-photo"></div>
-        <div class="user-text">
-            <span id="user-name">Yuklanmoqda...</span>
-        </div>
-    </div>
-    <!-- Справа можно добавить счетчик бонусов/монет, как на скрине -->
-    <div class="user-bonus-badge">
-        <i class="fas fa-coins"></i> <span id="user-bonus-val">0</span>
-    </div>
+<!-- 1. Нижнее меню (Tab Bar) без «Ijaraga» -->
+<div class="tab-bar">
+    <div class="tab-item" onclick="showPage('home')">Bosh sahifa</div>
+    <div class="tab-item" onclick="showPage('history')">Tarix</div>
+    <div class="tab-item" onclick="showPage('settings')">Sozlamalar</div>
 </div>
 
-<!-- Настройки: Личная карточка -->
-<div id="settings-page" class="page hidden">
-    <div class="settings-user-card">
-        <div class="s-user-header">
-            <div class="user-avatar-large" id="settings-photo"></div>
-            <div class="s-user-info">
-                <h2 id="settings-name">User Name</h2>
-                <p id="settings-id">ID: 00000000</p>
-            </div>
-        </div>
-        
-        <div class="lang-selector-capsule">
-            <button class="l-btn active" onclick="setLang('uz')">O'zbekcha</button>
-            <button class="l-btn" onclick="setLang('ru')">Русский</button>
-        </div>
+<!-- 2. Блок оплаты с твоими данными -->
+<div id="payment-modal" class="modal">
+    <div class="card-info">
+        <p>Karta raqami:</p>
+        <h2 id="card-num">9860 6004 0506 9466</h2>
+        <p>Ega: <b>Zokirjonov Zikirillo</b></p>
+        <button onclick="copyCard()">Nusxalash</button>
+    </div>
+    
+    <div class="rules">
+        <p>✅ Aynan shu summani yuboring!</p>
+        <p>✅ 5 daqiqa ichida to'lov qiling!</p>
     </div>
 
-    <!-- Список настроек -->
-    <div class="settings-list">
-        <div class="s-item">
-            <div class="s-item-left"><i class="fas fa-moon"></i> <span>Tungi rejim</span></div>
-            <label class="switch"><input type="checkbox" checked onchange="toggleTheme()"><span class="slider"></span></label>
-        </div>
-        <div class="s-item">
-            <div class="s-item-left"><i class="fas fa-bolt"></i> <span>Animatsiyalar</span></div>
-            <label class="switch"><input type="checkbox" checked onchange="toggleAnims()"><span class="slider"></span></label>
-        </div>
-        <div class="s-item" onclick="window.open('https://t.me/FikoYT')">
-            <div class="s-item-left"><i class="fas fa-headset"></i> <span>Qo'llab-quvvatlash</span></div>
-            <i class="fas fa-chevron-right s-arrow"></i>
-        </div>
-    </div>
+    <!-- Кнопка подтверждения -->
+    <button class="btn-confirm" onclick="sendPaymentNotification()">To'lov qildim</button>
 </div>
