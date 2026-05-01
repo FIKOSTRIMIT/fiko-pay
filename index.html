@@ -1,110 +1,47 @@
-<!DOCTYPE html>
-<html lang="uz">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Fiko Pay</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body>
-    <div class="app-container">
-        
-        <!-- ГЛАВНАЯ СТРАНИЦА -->
-        <div id="home-page" class="page active">
-            <div class="main-header">
-                <div class="user-profile">
-                    <div class="user-avatar" id="user-photo"></div>
-                    <div class="user-text"><span id="user-name">@username</span></div>
-                </div>
-            </div>
-
-            <div class="balance-container">
-                <div class="purple-card">
-                    <div class="balance-info">
-                        <span class="bal-label">Balans</span>
-                        <div class="bal-amount"><span id="main-balance">0</span> <span>so'm</span></div>
-                    </div>
-                    <div class="action-buttons">
-                        <div class="act-btn" onclick="openDeposit()"><i class="fas fa-plus-square"></i><span>To'ldirish</span></div>
-                        <div class="act-btn" onclick="openPromo()"><i class="fas fa-ticket-alt"></i><span>Promokod</span></div>
-                        <div class="act-btn" onclick="openSupport()"><i class="fas fa-headset"></i><span>Yordam</span></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="categories-grid">
-                <div class="category-card" onclick="openGameDetail('pubg', 'PUBG Mobile')">
-                    <div class="game-icon-box pubg-bg"><i class="fas fa-gun"></i></div>
-                    <div class="game-details">
-                        <span class="game-title">PUBG Mobile</span>
-                        <span class="game-price">8 000 so'm dan</span>
-                    </div>
-                </div>
-                <div class="category-card" onclick="openGameDetail('stars', 'TG Stars')">
-                    <div class="game-icon-box stars-bg"><i class="fas fa-star"></i></div>
-                    <div class="game-details">
-                        <span class="game-title">TG Stars</span>
-                        <span class="game-price">5 000 so'm dan</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ВНУТРЕННЕЕ МЕНЮ ИГРЫ -->
-        <div id="game-detail-page" class="page hidden">
-            <div class="game-header-back">
-                <button class="back-btn" onclick="closeGameDetail()"><i class="fas fa-arrow-left"></i></button>
-                <h2 id="current-game-title">O'yin</h2>
-            </div>
-            <div class="product-list" id="product-container">
-                <!-- Сюда JS добавит товары -->
-            </div>
-        </div>
-
-        <!-- ИСТОРИЯ -->
-        <div id="history-page" class="page hidden">
-            <h2 class="page-title">Tarix</h2>
-            <div class="history-tabs">
-                <div class="tab active" onclick="setHistoryTab('orders')">Buyurtmalar</div>
-                <div class="tab" onclick="setHistoryTab('finance')">Moliya</div>
-            </div>
-            <div id="history-list"></div>
-        </div>
-
-        <!-- НАСТРОЙКИ -->
-        <div id="settings-page" class="page hidden">
-            <div class="user-card-settings">
-                <div class="user-id-box">ID: 6324582848 <i class="far fa-copy" onclick="copyID()"></i></div>
-                <div class="long-balance-simple">
-                    <span class="label">BALANS</span>
-                    <div class="val">0 <span>so'm</span></div>
-                </div>
-                <div class="lang-switch">
-                    <button class="l-btn active">O'zbekcha</button>
-                    <button class="l-btn">Русский</button>
-                </div>
-            </div>
-            <div class="s-list-card">
-                <div class="s-row">
-                    <span>Tungi rejim</span>
-                    <label class="switch"><input type="checkbox" checked onchange="toggleTheme()"><span class="slider round"></span></label>
-                </div>
-                <div class="s-row">
-                    <span>Animatsiyalar</span>
-                    <label class="switch"><input type="checkbox" id="anim-toggle" onchange="toggleAnims()"><span class="slider round"></span></label>
-                </div>
-            </div>
-        </div>
-
-        <!-- НИЖНЯЯ НАВИГАЦИЯ -->
-        <div class="nav-container">
-            <div class="nav-item" onclick="showPage('home-page')"><i class="fas fa-home"></i><span>Asosiy</span></div>
-            <div class="nav-item" onclick="showPage('history-page')"><i class="fas fa-history"></i><span>Tarix</span></div>
-            <div class="nav-item" onclick="showPage('settings-page')"><i class="fas fa-cog"></i><span>Sozlamalar</span></div>
+<!-- Главная: Профиль -->
+<div class="main-header">
+    <div class="user-profile">
+        <div class="user-avatar" id="user-photo"></div>
+        <div class="user-text">
+            <span id="user-name">Yuklanmoqda...</span>
         </div>
     </div>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="script.js"></script>
-</body>
-</html>
+    <!-- Справа можно добавить счетчик бонусов/монет, как на скрине -->
+    <div class="user-bonus-badge">
+        <i class="fas fa-coins"></i> <span id="user-bonus-val">0</span>
+    </div>
+</div>
+
+<!-- Настройки: Личная карточка -->
+<div id="settings-page" class="page hidden">
+    <div class="settings-user-card">
+        <div class="s-user-header">
+            <div class="user-avatar-large" id="settings-photo"></div>
+            <div class="s-user-info">
+                <h2 id="settings-name">User Name</h2>
+                <p id="settings-id">ID: 00000000</p>
+            </div>
+        </div>
+        
+        <div class="lang-selector-capsule">
+            <button class="l-btn active" onclick="setLang('uz')">O'zbekcha</button>
+            <button class="l-btn" onclick="setLang('ru')">Русский</button>
+        </div>
+    </div>
+
+    <!-- Список настроек -->
+    <div class="settings-list">
+        <div class="s-item">
+            <div class="s-item-left"><i class="fas fa-moon"></i> <span>Tungi rejim</span></div>
+            <label class="switch"><input type="checkbox" checked onchange="toggleTheme()"><span class="slider"></span></label>
+        </div>
+        <div class="s-item">
+            <div class="s-item-left"><i class="fas fa-bolt"></i> <span>Animatsiyalar</span></div>
+            <label class="switch"><input type="checkbox" checked onchange="toggleAnims()"><span class="slider"></span></label>
+        </div>
+        <div class="s-item" onclick="window.open('https://t.me/FikoYT')">
+            <div class="s-item-left"><i class="fas fa-headset"></i> <span>Qo'llab-quvvatlash</span></div>
+            <i class="fas fa-chevron-right s-arrow"></i>
+        </div>
+    </div>
+</div>
