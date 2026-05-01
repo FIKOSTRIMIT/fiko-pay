@@ -2,108 +2,109 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Fiko Pay</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- HEADER -->
-    <div class="nav-bar">
-        <div class="user-info">
-            <div class="avatar"></div>
-            <span id="username">@username</span>
-        </div>
-    </div>
+    <div class="app-container">
+        
+        <!-- ГЛАВНАЯ СТРАНИЦА -->
+        <div id="home-page" class="page active">
+            <div class="main-header">
+                <div class="user-profile">
+                    <div class="user-avatar" id="user-photo"></div>
+                    <div class="user-text"><span id="user-name">@username</span></div>
+                </div>
+            </div>
 
-    <div id="main-content">
-        <!-- MAIN PAGE -->
-        <div id="home-page" class="page">
-            <div class="balance-card">
-                <div class="balance-label">HISOB BALANSI</div>
-                <div class="balance-amount">0 <span>so'm</span></div>
-                <div class="balance-actions">
-                    <button onclick="openDeposit()"><i class="fas fa-plus-circle"></i><br>To'ldirish</button>
-                    <button onclick="openPromo()"><i class="fas fa-ticket-alt"></i><br>Bonus</button>
-                    <button onclick="openSupport()"><i class="fas fa-headset"></i><br>Yordam</button>
+            <div class="balance-container">
+                <div class="purple-card">
+                    <div class="balance-info">
+                        <span class="bal-label">Balans</span>
+                        <div class="bal-amount"><span id="main-balance">0</span> <span>so'm</span></div>
+                    </div>
+                    <div class="action-buttons">
+                        <div class="act-btn" onclick="openDeposit()"><i class="fas fa-plus-square"></i><span>To'ldirish</span></div>
+                        <div class="act-btn" onclick="openPromo()"><i class="fas fa-ticket-alt"></i><span>Promokod</span></div>
+                        <div class="act-btn" onclick="openSupport()"><i class="fas fa-headset"></i><span>Yordam</span></div>
+                    </div>
                 </div>
             </div>
 
             <div class="categories-grid">
-                <div class="category-card" onclick="openGame('PUBG')"><span>PUBG Mobile</span></div>
-                <div class="category-card" onclick="openGame('FF')"><span>Free Fire</span></div>
-                <div class="category-card" onclick="openGame('MLBB')"><span>MLBB</span></div>
-                <div class="category-card" onclick="openGame('GENSHIN')"><span>Genshin</span></div>
-                <div class="category-card" onclick="openGame('ARENA')"><span>Arena Breakout</span></div>
-                <div class="category-card" onclick="openGame('STARS')"><span>TG Stars</span></div>
-                <div class="category-card" onclick="openGame('PREM')"><span>TG Premium</span></div>
+                <div class="category-card" onclick="openGameDetail('pubg', 'PUBG Mobile')">
+                    <div class="game-icon-box pubg-bg"><i class="fas fa-gun"></i></div>
+                    <div class="game-details">
+                        <span class="game-title">PUBG Mobile</span>
+                        <span class="game-price">8 000 so'm dan</span>
+                    </div>
+                </div>
+                <div class="category-card" onclick="openGameDetail('stars', 'TG Stars')">
+                    <div class="game-icon-box stars-bg"><i class="fas fa-star"></i></div>
+                    <div class="game-details">
+                        <span class="game-title">TG Stars</span>
+                        <span class="game-price">5 000 so'm dan</span>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- HISTORY PAGE -->
+        <!-- ВНУТРЕННЕЕ МЕНЮ ИГРЫ -->
+        <div id="game-detail-page" class="page hidden">
+            <div class="game-header-back">
+                <button class="back-btn" onclick="closeGameDetail()"><i class="fas fa-arrow-left"></i></button>
+                <h2 id="current-game-title">O'yin</h2>
+            </div>
+            <div class="product-list" id="product-container">
+                <!-- Сюда JS добавит товары -->
+            </div>
+        </div>
+
+        <!-- ИСТОРИЯ -->
         <div id="history-page" class="page hidden">
-            <div class="history-header">Tarix</div>
+            <h2 class="page-title">Tarix</h2>
             <div class="history-tabs">
-                <div class="history-tab active" id="tab-orders" onclick="switchHistoryTab('orders')">Buyurtmalar</div>
-                <div class="history-tab" id="tab-finance" onclick="switchHistoryTab('finance')">Moliya</div>
+                <div class="tab active" onclick="setHistoryTab('orders')">Buyurtmalar</div>
+                <div class="tab" onclick="setHistoryTab('finance')">Moliya</div>
             </div>
-            <div id="finance-list" class="hidden">
-                <div class="transaction-card">
-                    <div class="trans-top">
-                        <div class="trans-info"><i class="fas fa-credit-card"></i> Karta orqali</div>
-                        <div class="trans-amount positive">+1 000 so'm</div>
-                    </div>
-                    <div class="trans-bottom">
-                        <div class="trans-date">30.04.2026 22:31</div>
-                        <div class="status-badge failed">Muvaffaqiyatsiz</div>
-                    </div>
-                </div>
-            </div>
+            <div id="history-list"></div>
         </div>
 
-        <!-- SETTINGS PAGE -->
+        <!-- НАСТРОЙКИ -->
         <div id="settings-page" class="page hidden">
-            <div class="profile-section">
-                <div class="user-main-info">
-                    <div class="user-avatar-large"></div>
-                    <div class="user-text-info">
-                        <h2 id="settings-user">@username</h2>
-                        <div class="user-id-badge">ID: 6324582848 <i class="far fa-copy"></i></div>
-                    </div>
+            <div class="user-card-settings">
+                <div class="user-id-box">ID: 6324582848 <i class="far fa-copy" onclick="copyID()"></i></div>
+                <div class="long-balance-simple">
+                    <span class="label">BALANS</span>
+                    <div class="val">0 <span>so'm</span></div>
                 </div>
-                <div class="full-width-balance">
-                    <span class="balance-label">BALANS</span>
-                    <div class="balance-value">0 <span>so'm</span></div>
+                <div class="lang-switch">
+                    <button class="l-btn active">O'zbekcha</button>
+                    <button class="l-btn">Русский</button>
                 </div>
             </div>
-            <div class="language-selector">
-                <div class="lang-opt active" onclick="setLang('uz')">O'zbekcha</div>
-                <div class="lang-opt" onclick="setLang('ru')">Русский</div>
-            </div>
-            <div class="settings-card">
-                <div class="s-item" onclick="openReferral()"><i class="fas fa-users"></i> Taklif qilish</div>
-                <div class="s-item">
-                    <i class="fas fa-bolt"></i> Animatsiyalar
-                    <label class="switch"><input type="checkbox" id="anim-toggle" checked onchange="toggleAnims()"><span class="slider round"></span></label>
+            <div class="s-list-card">
+                <div class="s-row">
+                    <span>Tungi rejim</span>
+                    <label class="switch"><input type="checkbox" checked onchange="toggleTheme()"><span class="slider round"></span></label>
                 </div>
-                <div class="s-item">
-                    <i class="fas fa-moon"></i> Tungi rejim
-                    <label class="switch"><input type="checkbox" id="dark-toggle" checked onchange="toggleDark()"><span class="slider round"></span></label>
+                <div class="s-row">
+                    <span>Animatsiyalar</span>
+                    <label class="switch"><input type="checkbox" id="anim-toggle" onchange="toggleAnims()"><span class="slider round"></span></label>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- BOTTOM NAV (CAPSULE STYLE) -->
-    <div class="nav-container">
-        <div class="bottom-nav">
-            <div class="nav-item active" id="nav-home" onclick="switchTab('home')"><i class="fas fa-home"></i><span>Asosiy</span></div>
-            <div class="nav-item" id="nav-history" onclick="switchTab('history')"><i class="fas fa-history"></i><span>Tarix</span></div>
-            <div class="nav-item" id="nav-settings" onclick="switchTab('settings')"><i class="fas fa-user-cog"></i><span>Sozlamalar</span></div>
+        <!-- НИЖНЯЯ НАВИГАЦИЯ -->
+        <div class="nav-container">
+            <div class="nav-item" onclick="showPage('home-page')"><i class="fas fa-home"></i><span>Asosiy</span></div>
+            <div class="nav-item" onclick="showPage('history-page')"><i class="fas fa-history"></i><span>Tarix</span></div>
+            <div class="nav-item" onclick="showPage('settings-page')"><i class="fas fa-cog"></i><span>Sozlamalar</span></div>
         </div>
     </div>
-
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
