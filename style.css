@@ -1,78 +1,52 @@
-:root {
-    --bg: #0b0f1f;
-    --card: #1c243d;
-    --accent: #4d18ff;
-    --text-sec: #8a8d9b;
+.settings-user-card {
+    background: #1c243d;
+    margin: 15px;
+    padding: 20px;
+    border-radius: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-body {
-    background: var(--bg);
-    color: white;
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-    overflow-x: hidden;
-}
-
-.hidden { display: none; }
-
-/* Header & Balance */
-.main-header { display: flex; padding: 15px; }
-.user-profile { display: flex; align-items: center; gap: 12px; }
-.user-avatar { width: 40px; height: 40px; background: #ff7efd; border-radius: 50%; background-size: cover; }
-.user-text span { font-weight: 700; font-size: 16px; }
-
-.purple-card {
-    background: var(--accent);
-    border-radius: 28px;
-    padding: 25px;
-    margin: 0 15px 20px 15px;
-}
-
-.bal-amount { font-size: 32px; font-weight: 800; margin: 10px 0 20px 0; }
-.action-buttons { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-.act-btn {
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 18px;
-    padding: 12px 5px;
+.s-user-header {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 8px;
-    backdrop-filter: blur(5px);
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
-/* Grid & Cards */
-.categories-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 15px; }
-.category-card {
-    background: var(--card);
+.user-avatar-large {
+    width: 60px;
+    height: 60px;
+    background: #ff7efd;
     border-radius: 20px;
-    padding: 15px;
+    background-size: cover;
+}
+
+.s-user-info h2 { margin: 0; font-size: 18px; }
+.s-user-info p { margin: 4px 0 0 0; color: var(--text-sec); font-size: 13px; }
+
+/* Дизайн значка бонусов в шапке */
+.user-bonus-badge {
+    margin-left: auto;
+    background: rgba(255, 215, 0, 0.1);
+    color: #ffd700;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 14px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    text-align: center;
+    gap: 6px;
 }
 
-.game-icon-box { width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; font-size: 22px; }
-.pubg-bg { background: rgba(255, 174, 0, 0.15); color: #ffae00; }
-.stars-bg { background: rgba(255, 215, 0, 0.15); color: #ffd700; }
-
-.game-title { display: block; font-weight: 700; font-size: 14px; }
-.game-price { font-size: 11px; color: #34c759; }
-
-/* Navigation */
-.nav-container {
-    position: fixed;
-    bottom: 25px;
-    left: 20px;
-    right: 20px;
-    background: rgba(28, 36, 61, 0.9);
-    backdrop-filter: blur(15px);
-    border-radius: 35px;
-    padding: 8px;
+/* Список настроек */
+.s-item {
     display: flex;
-    justify-content: space-around;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-.nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-sec); font-size: 10px; gap: 4px; }
+.s-item-left { display: flex; align-items: center; gap: 12px; }
+.s-item-left i { color: var(--accent); font-size: 18px; width: 24px; text-align: center; }
+.s-arrow { color: #333; font-size: 12px; }
