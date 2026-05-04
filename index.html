@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="uz" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
+  <title>GameStore</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
+</head>
+<body>
+<canvas id="snow-canvas"></canvas>
+<div id="app">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="user-block">
+      <div class="avatar-ring">
+        <div class="avatar emoji-av" id="top-avatar">🧑</div>
+      </div>
+      <div class="user-text">
+        <span class="username" id="top-name">GameStore</span>
+        <span class="user-tag" id="top-tag">@username</span>
+      </div>
+    </div>
+    <div class="balance-pill">
+      <span>💰</span>
+      <span id="top-balance">0</span>
+      <span class="bal-som">so'm</span>
+    </div>
+  </div>
+
+  <!-- HOME PAGE -->
+  <div id="page-home" class="page active">
+    <div class="balance-card">
+      <div class="balance-label">Balans</div>
+      <div class="balance-amount"><span id="home-balance">0</span> <span class="balance-currency">so'm</span></div>
+      <div class="action-buttons">
+        <button class="action-btn" onclick="openTopup()">💳 To'ldirish</button>
+        <button class="action-btn" onclick="openBonus()">🎁 Bonus kod</button>
+        <button class="action-btn" onclick="openSupport()">💬 Yordam</button>
+      </div>
+    </div>
+    <div class="games-label">🎮 O'YINLAR</div>
+    <div id="games-grid" class="games-grid"></div>
+  </div>
+
+  <!-- HISTORY PAGE -->
+  <div id="page-history" class="page">
+    <h2 class="page-title">Tarix</h2>
+    <div class="tab-row">
+      <button class="tab-btn active" id="htab-orders" onclick="switchHistoryTab('orders')">Buyurtmalar</button>
+      <button class="tab-btn" id="htab-finance" onclick="switchHistoryTab('finance')">Moliya</button>
+    </div>
+    <div id="history-orders">
+      <div class="filter-row">
+        <button class="filter-btn active" onclick="filterH('orders','all',this)">Barchasi</button>
+        <button class="filter-btn" onclick="filterH('orders','done',this)">Bajarildi</button>
+        <button class="filter-btn" onclick="filterH('orders','pending',this)">Kutilmoqda</button>
+        <button class="filter-btn" onclick="filterH('orders','cancel',this)">Bekor</button>
+      </div>
+      <div id="orders-list" class="tx-list"></div>
+    </div>
+    <div id="history-finance" class="hidden">
+      <div class="filter-row">
+        <button class="filter-btn active" onclick="filterH('finance','all',this)">Barchasi</button>
+        <button class="filter-btn" onclick="filterH('finance','done',this)">Bajarildi</button>
+        <button class="filter-btn" onclick="filterH('finance','pending',this)">Kutilmoqda</button>
+        <button class="filter-btn" onclick="filterH('finance','cancel',this)">Bekor</button>
+      </div>
+      <div id="finance-list" class="tx-list"></div>
+    </div>
+  </div>
+
+  <!-- PROFILE PAGE -->
+  <div id="page-profile" class="page">
+    <div class="profile-hero">
+      <div class="avatar-ring large">
+        <div class="avatar large emoji-av" id="profile-avatar">🧑</div>
+      </div>
+      <div class="profile-info">
+        <div class="profile-name" id="profile-name">—</div>
+        <div class="profile-uname" id="profile-uname">@—</div>
+        <div class="profile-id-row">
+          <span>ID:</span>
+          <span id="profile-id">—</span>
+          <button class="copy-btn" onclick="copyText(userProfile.id)">⧉</button>
+        </div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="stat-lbl">BALANS</div>
+        <div class="stat-val"><span id="profile-balance">0</span> so'm</div>
+      </div>
+    </div>
+
+    <div class="sec-lbl">TIL</div>
+    <div class="tab-row">
+      <button class="tab-btn active" id="lang-uz" onclick="setLang('uz')">O'zbekcha</button>
+      <button class="tab-btn" id="lang-ru" onclick="setLang('ru')">Русский</button>
+    </div>
+
+    <div class="sec-lbl">SOZLAMALAR</div>
+    <div class="settings-list">
+      <div class="s-item clickable" onclick="openSupport()">
+        <div class="s-icon" style="background:rgba(34,197,94,.18)">💬</div>
+        <div class="s-text"><div class="s-title">Qo'llab-quvvatlash</div><div class="s-desc">24/7 yordam @FikoYT</div></div>
+        <span class="arr">›</span>
+      </div>
+      <div class="s-item">
+        <div class="s-icon" style="background:rgba(239,68,68,.18)">⚡</div>
+        <div class="s-text"><div class="s-title">Animatsiyalarni kamaytirish</div><div class="s-desc">Eski qurilmalar uchun</div></div>
+        <label class="toggle"><input type="checkbox" id="tog-anim" onchange="applyAnim(this)"><span class="slider"></span></label>
+      </div>
+      <div class="s-item">
+        <div class="s-icon" style="background:rgba(124,110,249,.18)">🌙</div>
+        <div class="s-text"><div class="s-title">Tungi rejim</div><div class="s-desc">Yorug' rejimga o'tish</div></div>
+        <label class="toggle"><input type="checkbox" id="tog-theme" onchange="applyTheme(this)"><span class="slider"></span></label>
+      </div>
+      <div class="s-item">
+        <div class="s-icon" style="background:rgba(255,200,50,.18)">✨</div>
+        <div class="s-text"><div class="s-title">Silliq animatsiyalar</div><div class="s-desc">Yuqori sifatli effektlar</div></div>
+        <label class="toggle"><input type="checkbox" id="tog-smooth" checked onchange="applySmooth(this)"><span class="slider"></span></label>
+      </div>
+      <div class="s-item">
+        <div class="s-icon" style="background:rgba(147,210,255,.18)">❄️</div>
+        <div class="s-text"><div class="s-title">Qish rejimi</div><div class="s-desc">GTA qish kabi qor yog'dirish</div></div>
+        <label class="toggle"><input type="checkbox" id="tog-snow" onchange="applySnow(this)"><span class="slider"></span></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" id="nav-home" onclick="navigate('home')">
+      <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V21H3z"/></svg>
+      <span>Bosh sahifa</span>
+    </button>
+    <button class="nav-btn" id="nav-history" onclick="navigate('history')">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      <span>Tarix</span>
+    </button>
+    <button class="nav-btn" id="nav-profile" onclick="navigate('profile')">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <span>Profil</span>
+    </button>
+  </nav>
+</div>
+
+<!-- ══ MODALS ══ -->
+
+<!-- TOPUP METHOD -->
+<div id="modal-topup" class="overlay" onclick="closeOverlay(event,'modal-topup')">
+  <div class="sheet">
+    <div class="handle"></div>
+    <h3 class="sheet-title">💳 Hisobni to'ldirish</h3>
+    <p class="sheet-sub">To'lov usulini tanlang</p>
+    <div class="pay-grid">
+      <button class="pay-btn" onclick="openAmount()">
+        <div class="pay-icon uc-icon">UZCARD<br/><small>HUMO</small></div>
+        <span>UZCARD / HUMO</span>
+      </button>
+      <button class="pay-btn" onclick="openBankomat()">
+        <div class="pay-icon atm-icon">🏧</div>
+        <span>BANKOMAT</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- AMOUNT INPUT -->
+<div id="modal-amount" class="overlay" onclick="closeOverlay(event,'modal-amount')">
+  <div class="sheet">
+    <div class="handle"></div>
+    <h3 class="sheet-title">Summa kiriting</h3>
+    <p class="sheet-sub">Minimum: 1 000 so'm</p>
+    <div class="amt-wrap">
+      <input type="number" id="amt-input" class="amt-input" placeholder="10000" min="1000" inputmode="numeric"/>
+      <span class="amt-sfx">so'm</span>
+    </div>
+    <button class="green-btn" style="margin-top:16px" onclick="goToCard()">Davom etish →</button>
+  </div>
+</div>
+
+<!-- CARD + TIMER -->
+<div id="modal-card" class="overlay" onclick="closeOverlay(event,'modal-card')">
+  <div class="sheet">
+    <div class="handle"></div>
+    <div class="timer-row">
+      <span>⏱ To'lov vaqti:</span>
+      <span id="countdown" class="countdown">05:00</span>
+    </div>
+    <div class="session-row">
+      <span>Session ID:</span>
+      <span id="sess-id" class="sess-val">—</span>
+    </div>
+    <div class="card-wrap">
+      <div class="card-visual">
+        <div class="card-type">Uzcard</div>
+        <div class="card-num">9860 6004 0506 9466</div>
+        <div class="card-owner">Zokirjonov Zikirillo</div>
+        <button class="card-copy" onclick="copyText('9860600405069466')">⧉</button>
+      </div>
+    </div>
+    <div class="amt-box">
+      <span>💵</span>
+      <span id="card-amt" class="card-amt-val">0 so'm</span>
+      <button class="copy-sm" onclick="copyText(String(currentAmount))">Nusxalash</button>
+    </div>
+    <div class="inst-box">
+      <div class="inst-title">Qanday to'lash kerak:</div>
+      <div class="inst ok">✔ Aynan shu summani yuborish!</div>
+      <div class="inst ok">✔ 5 daqiqa ichida to'lov qilish!</div>
+      <div class="inst bad">✖ Boshqa summa yuborish</div>
+      <div class="inst bad">✖ Bankomatdan tashlash</div>
+    </div>
+    <button class="green-btn" id="paid-btn" onclick="confirmPay()">To'lov qildim ✓</button>
+    <div id="timer-exp" class="timer-exp hidden">⏰ Vaqt tugadi. Qaytadan urining.</div>
+  </div>
+</div>
+
+<!-- BONUS -->
+<div id="modal-bonus" class="overlay" onclick="closeOverlay(event,'modal-bonus')">
+  <div class="sheet">
+    <div class="handle"></div>
+    <h3 class="sheet-title">🎁 Bonus kodlar</h3>
+    <div class="bonus-row">
+      <input type="text" id="bonus-inp" class="bonus-inp" placeholder="Kodni kiriting..."/>
+      <button class="acc-btn" onclick="applyBonus()">Qo'llash</button>
+    </div>
+    <div id="bonus-res" class="bonus-res"></div>
+  </div>
+</div>
+
+<!-- GAME MODAL -->
+<div id="modal-game" class="overlay" onclick="closeOverlay(event,'modal-game')">
+  <div class="sheet" id="game-sheet">
+    <div class="handle"></div>
+    <div id="game-content"></div>
+  </div>
+</div>
+
+<!-- ID CHECK MODAL -->
+<div id="modal-idcheck" class="overlay" onclick="closeOverlay(event,'modal-idcheck')">
+  <div class="sheet">
+    <div class="handle"></div>
+    <h3 class="sheet-title" id="idcheck-title">ID tekshirish</h3>
+    <div id="idcheck-fields"></div>
+    <button class="green-btn" onclick="verifyID()">✔ Tekshirish</button>
+    <div id="idcheck-result" class="idcheck-res"></div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
